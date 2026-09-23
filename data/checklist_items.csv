@@ -1,0 +1,8 @@
+checklist_id,machine_type,item,category,required
+CHK001,EXCAVATOR,Seatbelt functional,SAFETY,1
+CHK002,EXCAVATOR,Hydraulic system inspected,MACHINE,1
+CHK003,EXCAVATOR,Swing area clear,SAFETY,1
+CHK004,LOADER,Seatbelt functional,SAFETY,1
+CHK005,LOADER,Bucket/attachment inspected,MACHINE,1
+CHK006,DOZER,Seatbelt functional,SAFETY,1
+CHK007,DOZER,Blade and track condition inspected,MACHINE,1

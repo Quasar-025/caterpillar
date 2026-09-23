@@ -1,0 +1,501 @@
+anomaly_id,timestamp,task_id,machine_id,operator_id,anomaly_type,severity,observed_value,baseline_value,reason,recommended_action
+A00001,2026-01-22 14:09:15,T00756,EXC001,OP003,SLOW_REACTION,ATTENTION,562.2,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00002,2026-01-07 16:37:56,T00914,EXC001,OP007,HARSH_SWING,ATTENTION,122.7,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00003,2026-01-17 16:08:13,T00762,DOZ001,OP006,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00004,2026-01-23 17:58:58,T00252,LOD001,OP004,HIGH_FUEL_PER_CYCLE,ATTENTION,0.0,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00005,2026-01-04 11:12:06,T00884,EXC001,OP005,UNEXPECTED_MOVEMENT,ACTION,1.32,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00006,2026-01-05 11:15:24,T00151,LOD001,OP002,OVERLOAD,ACTION,77.54,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00007,2026-01-03 10:31:59,T00313,LOD001,OP002,ABNORMAL_CYCLE_TIME,ATTENTION,35.73,36.75,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00008,2026-01-08 11:43:45,T00461,EXC002,OP002,HIGH_FUEL_PER_CYCLE,ATTENTION,11.483,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00009,2026-01-25 14:35:27,T00546,EXC001,OP003,RAPID_CONTROL_CORRECTIONS,ACTION,5.86,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00010,2026-01-05 17:07:30,T00860,LOD001,OP002,UNEXPECTED_MOVEMENT,ATTENTION,2.02,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00011,2026-01-03 09:32:37,T00029,EXC001,OP001,HIGH_ENGINE_IDLE,ATTENTION,3.59,5.826,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00012,2026-01-14 09:19:14,T00310,LOD001,OP002,PROXIMITY_APPROACH,ACTION,16.97,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00013,2026-01-04 08:25:31,T00695,DOZ001,OP003,HIGH_ENGINE_IDLE,CRITICAL,1.62,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00014,2026-01-06 09:12:52,T00683,DOZ001,OP003,OVERLOAD,ACTION,58.43,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00015,2026-01-09 13:50:39,T00134,LOD001,OP003,SLOW_REACTION,ACTION,479.2,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00016,2026-01-06 12:33:39,T00804,DOZ001,OP007,PROXIMITY_APPROACH,ATTENTION,26.34,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00017,2026-01-08 15:45:58,T00535,EXC001,OP003,BELT_VIOLATION,CRITICAL,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00018,2026-01-03 11:09:13,T00086,DOZ001,OP001,HIGH_ENGINE_IDLE,ATTENTION,4.18,5.826,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00019,2026-01-04 11:21:46,T00884,EXC001,OP005,SLOW_REACTION,ACTION,477.5,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00020,2026-01-02 16:33:50,T00305,DOZ001,OP008,PROXIMITY_APPROACH,ATTENTION,28.97,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00021,2026-01-14 10:29:35,T00813,LOD001,OP005,RAPID_CONTROL_CORRECTIONS,ACTION,5.89,4.673,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00022,2026-01-28 15:26:24,T00214,EXC001,OP003,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00023,2026-01-29 10:44:14,T00817,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,3.43,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00024,2026-01-22 15:44:24,T00879,DOZ001,OP008,HIGH_ENGINE_IDLE,ATTENTION,5.35,5.594,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00025,2026-01-23 12:19:19,T00053,EXC002,OP001,SLOW_REACTION,ATTENTION,469.0,420.059,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00026,2026-01-05 10:08:03,T00612,LOD001,OP005,UNSTABLE_GROUND,CRITICAL,0.615,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00027,2026-01-10 07:02:14,T00826,EXC002,OP006,EXCESS_IDLE,ACTION,4.18,2.217,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00028,2026-01-28 15:30:33,T00214,EXC001,OP003,SLOW_REACTION,CRITICAL,384.9,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00029,2026-01-24 14:29:03,T00838,DOZ001,OP004,HARSH_SWING,ATTENTION,16.7,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00030,2026-01-05 10:23:06,T00135,EXC002,OP002,SLOW_REACTION,ACTION,535.6,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00031,2026-01-10 16:05:22,T00304,DOZ001,OP004,RAPID_CONTROL_CORRECTIONS,ACTION,3.25,2.37,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00032,2026-01-30 15:41:09,T00676,EXC002,OP005,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.86,4.673,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00033,2026-01-16 12:21:51,T00878,EXC002,OP003,ABNORMAL_CYCLE_TIME,ATTENTION,63.86,69.92,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00034,2026-01-18 07:37:35,T00136,DOZ001,OP005,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00035,2026-01-11 16:36:03,T00603,LOD001,OP006,UNSTABLE_GROUND,ATTENTION,0.77,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00036,2026-01-25 13:47:56,T00481,DOZ001,OP002,HARSH_SWING,ATTENTION,10.2,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00037,2026-01-20 16:25:27,T00738,DOZ001,OP007,HIGH_FUEL_PER_CYCLE,CRITICAL,6.266,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00038,2026-01-08 15:01:20,T00640,LOD001,OP006,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00039,2026-01-30 13:10:54,T00606,EXC001,OP002,RAPID_CONTROL_CORRECTIONS,ATTENTION,5.89,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00040,2026-01-03 10:24:21,T00086,DOZ001,OP001,SLOW_REACTION,ATTENTION,449.1,420.059,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00041,2026-01-25 17:00:47,T00015,EXC001,OP005,OVERLOAD,ATTENTION,72.23,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00042,2026-01-22 10:19:55,T00810,EXC001,OP008,OVERLOAD,ACTION,54.69,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00043,2026-01-06 11:42:41,T00341,EXC002,OP002,SLOW_REACTION,CRITICAL,531.8,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00044,2026-01-04 15:55:04,T00077,EXC001,OP005,UNEXPECTED_MOVEMENT,ACTION,1.69,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00045,2026-01-23 11:48:54,T00906,EXC002,OP008,HIGH_FUEL_PER_CYCLE,ACTION,12.6,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00046,2026-01-23 13:57:05,T00993,DOZ001,OP008,ABNORMAL_CYCLE_TIME,CRITICAL,66.93,60.4,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00047,2026-01-22 16:45:14,T00021,EXC002,OP007,UNSTABLE_GROUND,ACTION,0.819,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00048,2026-01-06 08:32:58,T00345,DOZ001,OP008,HIGH_FUEL_PER_CYCLE,ACTION,5.68,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00049,2026-01-03 08:37:45,T00193,EXC001,OP005,UNSTABLE_GROUND,ACTION,0.764,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00050,2026-01-20 10:55:56,T00637,EXC002,OP003,PROXIMITY_APPROACH,ACTION,15.28,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00051,2026-01-10 17:43:12,T00286,DOZ001,OP004,SLOW_REACTION,ACTION,478.3,470.663,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00052,2026-01-30 11:50:38,T00261,EXC002,OP002,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00053,2026-01-24 17:30:51,T00016,EXC002,OP001,HARSH_SWING,ATTENTION,124.3,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00054,2026-01-11 12:23:32,T00710,EXC001,OP004,OVERLOAD,ACTION,34.33,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00055,2026-01-19 09:54:23,T00527,EXC002,OP002,EXCESS_IDLE,ATTENTION,3.79,8.356,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00056,2026-01-28 10:01:38,T00192,EXC001,OP003,HARSH_SWING,ATTENTION,63.9,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00057,2026-01-12 10:50:35,T00950,EXC002,OP005,OVERLOAD,ATTENTION,69.18,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00058,2026-01-01 16:26:18,T00533,EXC001,OP001,RAPID_CONTROL_CORRECTIONS,ACTION,5.07,2.69,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00059,2026-01-23 17:08:24,T00682,DOZ001,OP008,ABNORMAL_CYCLE_TIME,ATTENTION,61.16,59.7,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00060,2026-01-10 13:59:08,T00656,EXC002,OP001,HIGH_FUEL_PER_CYCLE,ATTENTION,5.268,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00061,2026-01-12 08:46:28,T00802,DOZ001,OP007,EXCESS_IDLE,CRITICAL,0.0,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00062,2026-01-05 11:40:41,T00829,EXC002,OP006,OVERLOAD,ACTION,82.61,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00063,2026-01-26 14:21:28,T00876,DOZ001,OP006,SLOW_REACTION,ACTION,500.5,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00064,2026-01-28 08:34:55,T00484,EXC001,OP001,ABNORMAL_CYCLE_TIME,ACTION,30.93,30.07,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00065,2026-01-23 09:34:23,T00123,EXC002,OP003,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00066,2026-01-27 08:11:28,T00851,LOD001,OP006,HARSH_SWING,CRITICAL,1.1,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00067,2026-01-08 11:53:53,T00117,EXC001,OP007,UNSTABLE_GROUND,ATTENTION,0.658,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00068,2026-01-08 15:59:12,T00681,LOD001,OP004,PROXIMITY_APPROACH,CRITICAL,20.46,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00069,2026-01-08 07:14:56,T00382,EXC001,OP001,HARSH_SWING,ACTION,74.1,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00070,2026-01-24 18:46:23,T00959,EXC001,OP003,HIGH_ENGINE_IDLE,ACTION,9.88,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00071,2026-01-06 15:24:10,T00419,EXC002,OP001,PROXIMITY_APPROACH,ATTENTION,14.47,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00072,2026-01-02 13:00:52,T00919,EXC002,OP003,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.86,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00073,2026-01-30 12:05:37,T00261,EXC002,OP002,SLOW_REACTION,ATTENTION,684.4,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00074,2026-01-22 11:13:13,T00211,EXC001,OP006,OVERLOAD,ATTENTION,70.32,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00075,2026-01-07 07:30:18,T00823,DOZ001,OP005,EXCESS_IDLE,ATTENTION,9.07,7.605,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00076,2026-01-14 15:15:03,T00052,DOZ001,OP006,RAPID_CONTROL_CORRECTIONS,ATTENTION,6.36,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00077,2026-01-19 17:25:04,T00564,DOZ001,OP006,HARSH_SWING,ACTION,8.0,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00078,2026-01-20 11:46:28,T00588,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,6.65,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00079,2026-01-22 16:08:31,T00312,DOZ001,OP003,RAPID_CONTROL_CORRECTIONS,ATTENTION,3.36,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00080,2026-01-29 06:14:38,T00814,LOD001,OP006,ABNORMAL_CYCLE_TIME,ATTENTION,45.67,43.41,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00081,2026-01-06 06:48:30,T00868,EXC002,OP006,UNSTABLE_GROUND,ACTION,0.778,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00082,2026-01-26 16:35:35,T00396,EXC001,OP003,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00083,2026-01-12 11:49:59,T00485,DOZ001,OP002,HIGH_FUEL_PER_CYCLE,CRITICAL,6.333,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00084,2026-01-11 08:14:39,T00678,DOZ001,OP003,ABNORMAL_CYCLE_TIME,ATTENTION,65.74,65.25,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00085,2026-01-19 15:03:00,T00600,EXC002,OP004,ABNORMAL_CYCLE_TIME,ATTENTION,36.13,38.73,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00086,2026-01-27 12:40:16,T00068,DOZ001,OP004,HARSH_SWING,ATTENTION,3.1,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00087,2026-01-22 15:47:38,T00504,EXC001,OP007,OVERLOAD,ATTENTION,76.66,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00088,2026-01-18 17:59:38,T00116,DOZ001,OP006,PROXIMITY_APPROACH,ATTENTION,35.3,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00089,2026-01-20 16:25:29,T00767,EXC001,OP001,UNEXPECTED_MOVEMENT,ATTENTION,1.69,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00090,2026-01-24 17:16:50,T00418,EXC002,OP005,ABNORMAL_CYCLE_TIME,CRITICAL,84.76,78.07,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00091,2026-01-18 07:08:12,T00347,EXC002,OP006,HARSH_SWING,ACTION,143.3,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00092,2026-01-11 13:03:15,T00710,EXC001,OP004,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.4,2.37,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00093,2026-01-17 16:45:52,T00762,DOZ001,OP006,ABNORMAL_CYCLE_TIME,ATTENTION,68.7,64.98,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00094,2026-01-04 08:02:26,T00399,EXC001,OP008,RAPID_CONTROL_CORRECTIONS,ACTION,5.09,2.36,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00095,2026-01-17 16:36:27,T00762,DOZ001,OP006,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00096,2026-01-03 16:02:32,T00744,EXC001,OP001,PROXIMITY_APPROACH,ACTION,25.96,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00097,2026-01-01 06:30:45,T00480,DOZ001,OP004,OVERLOAD,ATTENTION,60.37,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00098,2026-01-19 09:44:47,T00295,LOD001,OP007,HARSH_SWING,ACTION,7.7,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00099,2026-01-21 10:43:55,T00939,DOZ001,OP008,PROXIMITY_APPROACH,ATTENTION,15.26,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00100,2026-01-06 14:17:06,T00346,LOD001,OP005,SLOW_REACTION,CRITICAL,434.5,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00101,2026-01-16 07:23:15,T00754,LOD001,OP005,HIGH_ENGINE_IDLE,ACTION,10.0,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00102,2026-01-18 16:25:34,T00116,DOZ001,OP006,UNSTABLE_GROUND,ATTENTION,0.675,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00103,2026-01-19 17:46:48,T00712,DOZ001,OP005,HIGH_ENGINE_IDLE,CRITICAL,5.41,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00104,2026-01-29 10:57:46,T00817,EXC002,OP006,OVERLOAD,ACTION,61.23,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00105,2026-01-16 14:18:36,T00611,DOZ001,OP006,PROXIMITY_APPROACH,ATTENTION,14.2,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00106,2026-01-24 12:37:30,T00806,DOZ001,OP001,HIGH_ENGINE_IDLE,CRITICAL,1.73,5.826,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00107,2026-01-25 14:58:12,T00095,EXC002,OP004,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00108,2026-01-20 11:41:40,T00588,EXC002,OP006,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00109,2026-01-24 16:20:54,T00654,EXC002,OP001,OVERLOAD,ACTION,77.48,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00110,2026-01-12 10:11:41,T00950,EXC002,OP005,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00111,2026-01-02 08:38:23,T00499,LOD001,OP002,UNSTABLE_GROUND,ATTENTION,0.788,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00112,2026-01-04 11:49:04,T00996,LOD001,OP003,HARSH_SWING,ACTION,17.0,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00113,2026-01-14 07:35:44,T00108,DOZ001,OP008,SLOW_REACTION,ATTENTION,629.3,551.875,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00114,2026-01-04 15:26:44,T00077,EXC001,OP005,HARSH_SWING,ATTENTION,24.0,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00115,2026-01-26 16:22:28,T00496,EXC001,OP002,ABNORMAL_CYCLE_TIME,CRITICAL,41.33,39.83,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00116,2026-01-27 15:08:36,T00048,DOZ001,OP004,HIGH_FUEL_PER_CYCLE,ACTION,7.017,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00117,2026-01-07 14:21:51,T00255,LOD001,OP004,PROXIMITY_APPROACH,ATTENTION,25.43,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00118,2026-01-06 13:50:36,T00038,EXC002,OP005,HARSH_SWING,ATTENTION,65.6,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00119,2026-01-15 17:10:16,T00391,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,5.36,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00120,2026-01-07 10:14:40,T00027,LOD001,OP004,HIGH_FUEL_PER_CYCLE,ATTENTION,6.12,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00121,2026-01-23 11:10:15,T00351,LOD001,OP006,HARSH_SWING,ATTENTION,13.8,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00122,2026-01-20 14:19:09,T00228,LOD001,OP005,HIGH_ENGINE_IDLE,ACTION,12.86,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00123,2026-01-01 10:07:28,T00299,EXC001,OP003,EXCESS_IDLE,ACTION,7.54,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00124,2026-01-23 18:19:32,T00252,LOD001,OP004,HIGH_ENGINE_IDLE,ACTION,10.15,5.836,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00125,2026-01-21 12:41:23,T00550,LOD001,OP007,HIGH_FUEL_PER_CYCLE,CRITICAL,6.562,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00126,2026-01-09 13:36:43,T00065,LOD001,OP004,EXCESS_IDLE,ACTION,2.07,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00127,2026-01-13 16:22:27,T00768,EXC001,OP003,UNEXPECTED_MOVEMENT,ATTENTION,2.43,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00128,2026-01-24 18:33:12,T00764,DOZ001,OP004,RAPID_CONTROL_CORRECTIONS,ACTION,3.32,2.37,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00129,2026-01-08 11:49:52,T00117,EXC001,OP007,HARSH_SWING,ACTION,96.2,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00130,2026-01-25 09:06:08,T00104,EXC002,OP001,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00131,2026-01-08 11:43:45,T00461,EXC002,OP002,OVERLOAD,ACTION,76.33,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00132,2026-01-01 09:11:53,T00430,DOZ001,OP002,ABNORMAL_CYCLE_TIME,ATTENTION,55.49,52.22,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00133,2026-01-04 12:42:21,T00208,EXC002,OP005,ABNORMAL_CYCLE_TIME,ATTENTION,31.82,30.66,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00134,2026-01-02 10:51:38,T00848,EXC002,OP003,ABNORMAL_CYCLE_TIME,ATTENTION,87.3,87.63,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00135,2026-01-27 15:42:54,T00642,DOZ001,OP001,UNEXPECTED_MOVEMENT,ACTION,3.9,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00136,2026-01-08 15:21:01,T00902,LOD001,OP002,UNSTABLE_GROUND,ACTION,0.838,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00137,2026-01-17 15:05:57,T00687,DOZ001,OP004,EXCESS_IDLE,ACTION,6.28,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00138,2026-01-16 17:08:50,T00562,EXC001,OP002,ABNORMAL_CYCLE_TIME,ATTENTION,37.17,36.79,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00139,2026-01-16 16:46:35,T00258,EXC002,OP008,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.93,2.36,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00140,2026-01-04 17:25:06,T00152,LOD001,OP007,UNEXPECTED_MOVEMENT,ACTION,1.48,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00141,2026-01-21 10:47:04,T00626,EXC002,OP008,UNEXPECTED_MOVEMENT,ACTION,2.17,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00142,2026-01-08 17:59:01,T00800,LOD001,OP002,OVERLOAD,ACTION,74.48,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00143,2026-01-15 16:12:44,T00149,EXC001,OP005,SLOW_REACTION,ATTENTION,439.9,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00144,2026-01-19 08:07:28,T00727,EXC001,OP008,HIGH_FUEL_PER_CYCLE,ACTION,0.0,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00145,2026-01-05 09:27:06,T00094,DOZ001,OP001,UNSTABLE_GROUND,ATTENTION,0.71,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00146,2026-01-04 15:10:35,T00861,EXC001,OP002,PROXIMITY_APPROACH,ACTION,10.13,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00147,2026-01-28 11:55:14,T00005,DOZ001,OP006,PROXIMITY_APPROACH,ATTENTION,28.77,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00148,2026-01-21 13:24:41,T00772,EXC002,OP003,ABNORMAL_CYCLE_TIME,ACTION,108.97,104.87,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00149,2026-01-01 10:12:08,T00299,EXC001,OP003,PROXIMITY_APPROACH,ATTENTION,21.02,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00150,2026-01-29 12:43:22,T00453,LOD001,OP007,PROXIMITY_APPROACH,CRITICAL,25.97,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00151,2026-01-27 12:30:53,T00344,DOZ001,OP004,EXCESS_IDLE,CRITICAL,0.4,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00152,2026-01-15 06:22:40,T00720,EXC001,OP006,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00153,2026-01-15 15:43:55,T00558,LOD001,OP004,HIGH_FUEL_PER_CYCLE,ACTION,0.0,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00154,2026-01-29 14:22:21,T00423,DOZ001,OP003,UNEXPECTED_MOVEMENT,ACTION,3.65,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00155,2026-01-19 09:49:24,T00527,EXC002,OP002,HIGH_FUEL_PER_CYCLE,ACTION,12.915,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00156,2026-01-07 10:10:50,T00027,LOD001,OP004,HARSH_SWING,ATTENTION,11.2,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00157,2026-01-03 10:33:24,T00909,DOZ001,OP005,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00158,2026-01-30 07:59:34,T00995,EXC001,OP006,RAPID_CONTROL_CORRECTIONS,ATTENTION,3.83,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00159,2026-01-03 07:59:26,T00161,EXC001,OP007,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.77,3.554,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00160,2026-01-13 09:38:20,T00291,DOZ001,OP004,OVERLOAD,CRITICAL,55.4,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00161,2026-01-29 15:36:33,T00188,EXC001,OP006,ABNORMAL_CYCLE_TIME,CRITICAL,37.33,34.94,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00162,2026-01-18 16:55:17,T00116,DOZ001,OP006,SLOW_REACTION,ATTENTION,592.9,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00163,2026-01-04 11:36:33,T00990,EXC002,OP004,UNSTABLE_GROUND,ACTION,0.769,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00164,2026-01-26 13:41:22,T00243,EXC001,OP006,HIGH_ENGINE_IDLE,ATTENTION,1.51,2.217,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00165,2026-01-23 17:01:09,T00415,LOD001,OP006,UNSTABLE_GROUND,ACTION,0.793,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00166,2026-01-02 06:20:23,T00373,EXC002,OP004,EXCESS_IDLE,CRITICAL,0.0,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00167,2026-01-13 14:36:26,T00168,DOZ001,OP003,OVERLOAD,ACTION,53.18,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00168,2026-01-07 10:01:14,T00586,EXC001,OP005,PROXIMITY_APPROACH,CRITICAL,12.22,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00169,2026-01-14 16:23:33,T00487,EXC001,OP002,UNSTABLE_GROUND,ACTION,0.879,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00170,2026-01-04 11:44:25,T00996,LOD001,OP003,HARSH_SWING,ACTION,3.3,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00171,2026-01-28 16:25:28,T00488,DOZ001,OP001,ABNORMAL_CYCLE_TIME,ACTION,64.35,62.71,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00172,2026-01-13 06:52:25,T00468,DOZ001,OP008,ABNORMAL_CYCLE_TIME,CRITICAL,64.23,60.56,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00173,2026-01-17 13:05:19,T00571,EXC001,OP004,UNEXPECTED_MOVEMENT,ACTION,1.34,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00174,2026-01-27 07:10:23,T00245,DOZ001,OP008,SLOW_REACTION,CRITICAL,579.9,551.875,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00175,2026-01-14 16:57:52,T00602,EXC001,OP006,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00176,2026-01-03 16:06:48,T00744,EXC001,OP001,HARSH_SWING,CRITICAL,95.2,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00177,2026-01-06 16:30:14,T00690,DOZ001,OP002,PROXIMITY_APPROACH,ACTION,28.1,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00178,2026-01-27 07:40:53,T00497,DOZ001,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,4.77,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00179,2026-01-25 08:06:21,T00629,DOZ001,OP006,EXCESS_IDLE,ACTION,8.36,2.217,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00180,2026-01-08 13:37:52,T00003,EXC001,OP007,EXCESS_IDLE,ACTION,4.34,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00181,2026-01-27 13:07:21,T00444,LOD001,OP005,UNSTABLE_GROUND,CRITICAL,0.684,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00182,2026-01-10 07:15:49,T00826,EXC002,OP006,ABNORMAL_CYCLE_TIME,ATTENTION,120.19,112.5,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00183,2026-01-24 14:38:58,T00089,EXC002,OP002,RAPID_CONTROL_CORRECTIONS,ACTION,4.01,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00184,2026-01-19 15:10:33,T00834,LOD001,OP004,ABNORMAL_CYCLE_TIME,ATTENTION,51.1,52.68,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00185,2026-01-30 10:26:49,T00182,EXC002,OP006,HARSH_SWING,ATTENTION,114.7,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00186,2026-01-04 16:48:32,T00272,EXC002,OP008,HARSH_SWING,ACTION,53.2,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00187,2026-01-16 07:44:59,T00074,DOZ001,OP002,HIGH_ENGINE_IDLE,CRITICAL,5.48,8.356,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00188,2026-01-14 17:00:42,T00490,EXC002,OP002,RAPID_CONTROL_CORRECTIONS,CRITICAL,5.02,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00189,2026-01-20 16:12:45,T00767,EXC001,OP001,UNSTABLE_GROUND,ACTION,0.806,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00190,2026-01-24 11:46:37,T00233,EXC002,OP006,SLOW_REACTION,ACTION,466.1,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00191,2026-01-12 15:41:38,T00268,LOD001,OP005,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00192,2026-01-06 11:35:57,T00450,DOZ001,OP006,HIGH_FUEL_PER_CYCLE,ATTENTION,4.89,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00193,2026-01-11 17:32:33,T00636,EXC002,OP004,HIGH_ENGINE_IDLE,ACTION,6.34,5.836,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00194,2026-01-12 12:14:45,T00124,EXC002,OP006,SLOW_REACTION,ATTENTION,522.5,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00195,2026-01-06 15:45:22,T00051,EXC001,OP005,PROXIMITY_APPROACH,ACTION,19.44,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00196,2026-01-02 16:13:58,T00305,DOZ001,OP008,HIGH_ENGINE_IDLE,ATTENTION,0.0,5.594,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00197,2026-01-17 07:16:05,T00509,LOD001,OP001,EXCESS_IDLE,ACTION,12.51,5.826,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00198,2026-01-18 17:56:44,T00383,EXC001,OP001,UNEXPECTED_MOVEMENT,ACTION,0.43,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00199,2026-01-03 16:07:26,T00143,EXC001,OP008,UNEXPECTED_MOVEMENT,ATTENTION,1.19,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00200,2026-01-04 11:22:15,T00930,DOZ001,OP005,HIGH_ENGINE_IDLE,ATTENTION,4.45,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00201,2026-01-06 18:12:36,T00726,EXC002,OP007,HARSH_SWING,CRITICAL,100.4,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00202,2026-01-25 17:12:21,T00952,LOD001,OP008,ABNORMAL_CYCLE_TIME,ATTENTION,44.06,44.78,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00203,2026-01-21 13:56:29,T00711,EXC002,OP003,PROXIMITY_APPROACH,ATTENTION,3.0,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00204,2026-01-21 13:51:52,T00711,EXC002,OP003,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00205,2026-01-26 15:43:52,T00171,EXC002,OP003,UNSTABLE_GROUND,ACTION,0.796,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00206,2026-01-09 13:20:01,T00482,EXC002,OP005,SLOW_REACTION,CRITICAL,522.8,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00207,2026-01-12 14:49:30,T00292,LOD001,OP005,SLOW_REACTION,CRITICAL,395.5,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00208,2026-01-08 16:59:51,T00122,EXC001,OP005,UNEXPECTED_MOVEMENT,ATTENTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00209,2026-01-27 06:08:07,T00623,EXC002,OP007,EXCESS_IDLE,ATTENTION,0.66,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00210,2026-01-03 10:41:00,T00661,EXC001,OP004,UNEXPECTED_MOVEMENT,ATTENTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00211,2026-01-24 06:04:16,T00473,EXC001,OP004,HIGH_FUEL_PER_CYCLE,ACTION,18.84,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00212,2026-01-21 13:48:03,T00816,LOD001,OP002,SLOW_REACTION,ATTENTION,465.6,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00213,2026-01-21 08:48:32,T00336,DOZ001,OP007,UNEXPECTED_MOVEMENT,ATTENTION,3.12,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00214,2026-01-06 08:38:47,T00827,EXC001,OP005,HIGH_ENGINE_IDLE,ATTENTION,15.54,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00215,2026-01-09 06:09:26,T00091,LOD001,OP003,HIGH_ENGINE_IDLE,ACTION,6.71,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00216,2026-01-02 06:55:11,T00373,EXC002,OP004,RAPID_CONTROL_CORRECTIONS,ATTENTION,2.79,2.37,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00217,2026-01-02 12:41:42,T00189,EXC001,OP008,RAPID_CONTROL_CORRECTIONS,ACTION,2.96,2.36,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00218,2026-01-04 11:30:28,T00996,LOD001,OP003,HIGH_FUEL_PER_CYCLE,ACTION,6.235,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00219,2026-01-22 11:35:00,T00434,EXC001,OP002,HARSH_SWING,ACTION,9.4,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00220,2026-01-04 14:25:00,T00865,LOD001,OP008,UNEXPECTED_MOVEMENT,ACTION,1.96,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00221,2026-01-30 15:20:53,T00859,EXC001,OP002,RAPID_CONTROL_CORRECTIONS,ATTENTION,3.21,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00222,2026-01-04 16:51:25,T00257,DOZ001,OP008,UNEXPECTED_MOVEMENT,ATTENTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00223,2026-01-13 07:48:55,T00882,LOD001,OP006,HARSH_SWING,ATTENTION,6.9,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00224,2026-01-24 14:15:43,T00064,DOZ001,OP003,HIGH_FUEL_PER_CYCLE,ACTION,4.945,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00225,2026-01-02 11:29:13,T00204,EXC002,OP003,EXCESS_IDLE,ACTION,1.9,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00226,2026-01-15 06:13:53,T00402,LOD001,OP001,ABNORMAL_CYCLE_TIME,CRITICAL,59.48,60.0,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00227,2026-01-23 09:37:36,T00397,LOD001,OP002,HIGH_FUEL_PER_CYCLE,CRITICAL,4.336,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00228,2026-01-09 13:51:03,T00409,EXC001,OP004,PROXIMITY_APPROACH,ACTION,23.7,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00229,2026-01-18 09:22:34,T00531,EXC002,OP003,UNEXPECTED_MOVEMENT,ACTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00230,2026-01-08 17:13:38,T00281,EXC002,OP001,HARSH_SWING,ACTION,32.8,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00231,2026-01-28 16:20:17,T00812,LOD001,OP001,EXCESS_IDLE,ACTION,1.4,5.826,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00232,2026-01-18 15:25:36,T00569,DOZ001,OP006,PROXIMITY_APPROACH,CRITICAL,19.88,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00233,2026-01-03 15:58:25,T00125,EXC001,OP003,SLOW_REACTION,ACTION,532.0,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00234,2026-01-03 09:19:07,T00745,DOZ001,OP003,EXCESS_IDLE,ACTION,3.61,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00235,2026-01-19 10:04:22,T00527,EXC002,OP002,RAPID_CONTROL_CORRECTIONS,ATTENTION,6.03,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00236,2026-01-07 15:57:28,T00242,LOD001,OP003,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00237,2026-01-22 12:21:49,T00056,EXC001,OP007,UNSTABLE_GROUND,ACTION,0.778,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00238,2026-01-20 10:15:46,T00500,DOZ001,OP005,SLOW_REACTION,ACTION,423.1,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00239,2026-01-20 06:11:37,T00280,EXC001,OP007,SLOW_REACTION,ATTENTION,482.1,416.906,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00240,2026-01-05 15:44:59,T00997,DOZ001,OP003,HIGH_FUEL_PER_CYCLE,CRITICAL,5.3,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00241,2026-01-21 14:45:54,T00050,EXC002,OP006,PROXIMITY_APPROACH,CRITICAL,23.19,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00242,2026-01-04 09:51:54,T00858,EXC001,OP008,HIGH_ENGINE_IDLE,ATTENTION,1.42,5.594,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00243,2026-01-02 09:42:07,T00199,EXC002,OP002,RAPID_CONTROL_CORRECTIONS,ACTION,4.7,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00244,2026-01-06 13:07:22,T00342,EXC002,OP007,HIGH_FUEL_PER_CYCLE,ATTENTION,0.0,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00245,2026-01-08 11:35:21,T00461,EXC002,OP002,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00246,2026-01-15 17:10:16,T00391,EXC002,OP006,SLOW_REACTION,ATTENTION,507.3,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00247,2026-01-22 11:15:16,T00457,EXC001,OP007,RAPID_CONTROL_CORRECTIONS,ACTION,4.7,3.554,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00248,2026-01-19 17:01:15,T00253,LOD001,OP002,UNEXPECTED_MOVEMENT,ACTION,3.78,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00249,2026-01-08 17:49:44,T00122,EXC001,OP005,EXCESS_IDLE,ATTENTION,15.08,7.605,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00250,2026-01-07 09:42:10,T00586,EXC001,OP005,BELT_VIOLATION,CRITICAL,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00251,2026-01-19 08:31:40,T00727,EXC001,OP008,HIGH_ENGINE_IDLE,ATTENTION,6.19,5.594,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00252,2026-01-19 09:59:22,T00527,EXC002,OP002,EXCESS_IDLE,ACTION,5.68,8.356,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00253,2026-01-03 07:59:26,T00161,EXC001,OP007,PROXIMITY_APPROACH,ACTION,28.93,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00254,2026-01-06 08:13:31,T00345,DOZ001,OP008,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.12,2.36,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00255,2026-01-24 11:20:53,T00032,EXC001,OP001,UNEXPECTED_MOVEMENT,CRITICAL,1.63,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00256,2026-01-20 08:42:24,T00607,EXC001,OP005,ABNORMAL_CYCLE_TIME,ATTENTION,28.57,28.14,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00257,2026-01-22 16:00:43,T00176,DOZ001,OP008,HIGH_FUEL_PER_CYCLE,ACTION,8.26,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00258,2026-01-06 13:41:47,T00038,EXC002,OP005,HIGH_FUEL_PER_CYCLE,ATTENTION,9.05,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00259,2026-01-04 16:57:45,T00790,EXC001,OP003,SLOW_REACTION,ACTION,413.0,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00260,2026-01-16 13:35:05,T00818,LOD001,OP008,HARSH_SWING,ACTION,13.5,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00261,2026-01-25 12:20:04,T00622,EXC001,OP005,HIGH_ENGINE_IDLE,CRITICAL,4.91,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00262,2026-01-06 17:44:37,T00726,EXC002,OP007,PROXIMITY_APPROACH,ACTION,23.83,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00263,2026-01-06 07:22:45,T00479,LOD001,OP005,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00264,2026-01-16 07:44:33,T00362,EXC001,OP004,UNSTABLE_GROUND,ACTION,0.774,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00265,2026-01-27 08:07:27,T00851,LOD001,OP006,UNSTABLE_GROUND,ATTENTION,0.803,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00266,2026-01-09 08:12:29,T00616,DOZ001,OP004,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00267,2026-01-22 14:32:29,T00459,EXC002,OP004,OVERLOAD,ATTENTION,87.65,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00268,2026-01-21 06:16:46,T00572,EXC001,OP007,EXCESS_IDLE,ATTENTION,3.46,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00269,2026-01-26 11:05:10,T00732,EXC002,OP002,OVERLOAD,CRITICAL,72.58,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00270,2026-01-28 16:25:00,T00812,LOD001,OP001,PROXIMITY_APPROACH,ACTION,40.44,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00271,2026-01-13 15:22:59,T00686,EXC002,OP006,HIGH_ENGINE_IDLE,ACTION,2.5,2.217,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00272,2026-01-02 09:30:52,T00412,DOZ001,OP002,OVERLOAD,ATTENTION,59.27,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00273,2026-01-23 07:06:01,T00275,EXC002,OP006,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00274,2026-01-05 06:47:33,T00699,EXC002,OP001,UNSTABLE_GROUND,ACTION,0.842,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00275,2026-01-07 17:19:31,T00783,EXC002,OP002,HARSH_SWING,ACTION,40.7,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00276,2026-01-11 08:40:36,T00368,DOZ001,OP007,UNSTABLE_GROUND,ATTENTION,0.671,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00277,2026-01-10 14:21:36,T00760,DOZ001,OP008,ABNORMAL_CYCLE_TIME,ATTENTION,57.59,61.0,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00278,2026-01-10 13:20:55,T00223,EXC001,OP002,HIGH_FUEL_PER_CYCLE,ATTENTION,10.526,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00279,2026-01-05 05:54:41,T00803,LOD001,OP006,UNSTABLE_GROUND,ATTENTION,0.829,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00280,2026-01-02 08:35:54,T00638,EXC001,OP002,OVERLOAD,ATTENTION,81.71,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00281,2026-01-10 10:46:46,T00931,LOD001,OP007,UNEXPECTED_MOVEMENT,ACTION,2.61,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00282,2026-01-24 18:46:23,T00959,EXC001,OP003,ABNORMAL_CYCLE_TIME,ACTION,30.95,31.33,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00283,2026-01-17 18:07:33,T00915,EXC001,OP004,EXCESS_IDLE,ACTION,11.91,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00284,2026-01-29 15:41:32,T00188,EXC001,OP006,HARSH_SWING,ACTION,41.1,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00285,2026-01-07 14:37:55,T00723,EXC001,OP002,OVERLOAD,ATTENTION,90.98,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00286,2026-01-27 07:43:55,T00082,LOD001,OP004,PROXIMITY_APPROACH,ACTION,27.43,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00287,2026-01-23 14:14:08,T00610,LOD001,OP003,HIGH_ENGINE_IDLE,ATTENTION,0.0,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00288,2026-01-18 06:43:14,T00347,EXC002,OP006,UNEXPECTED_MOVEMENT,ATTENTION,2.48,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00289,2026-01-20 06:04:59,T00166,EXC001,OP007,SLOW_REACTION,ATTENTION,449.3,416.906,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00290,2026-01-21 06:23:01,T00370,EXC002,OP005,HIGH_ENGINE_IDLE,ATTENTION,0.0,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00291,2026-01-09 13:46:23,T00409,EXC001,OP004,OVERLOAD,ACTION,86.92,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00292,2026-01-16 18:19:33,T00150,DOZ001,OP002,PROXIMITY_APPROACH,ACTION,25.46,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00293,2026-01-03 08:18:36,T00193,EXC001,OP005,RAPID_CONTROL_CORRECTIONS,CRITICAL,5.44,4.673,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00294,2026-01-23 16:41:48,T00415,LOD001,OP006,BELT_VIOLATION,CRITICAL,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00295,2026-01-27 13:04:12,T00343,EXC001,OP006,HIGH_FUEL_PER_CYCLE,ATTENTION,0.0,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00296,2026-01-23 11:22:26,T00040,LOD001,OP004,HARSH_SWING,ACTION,0.5,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00297,2026-01-09 13:28:45,T00093,LOD001,OP001,UNEXPECTED_MOVEMENT,ACTION,2.3,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00298,2026-01-23 09:31:17,T00200,DOZ001,OP004,PROXIMITY_APPROACH,ACTION,28.44,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00299,2026-01-05 16:31:47,T00326,EXC002,OP008,HIGH_FUEL_PER_CYCLE,ACTION,0.0,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00300,2026-01-17 14:55:12,T00985,LOD001,OP002,HIGH_ENGINE_IDLE,ATTENTION,8.09,8.356,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00301,2026-01-18 13:33:01,T00284,EXC001,OP007,PROXIMITY_APPROACH,ATTENTION,11.25,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00302,2026-01-24 14:01:23,T00064,DOZ001,OP003,HARSH_SWING,ATTENTION,11.3,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00303,2026-01-25 11:28:59,T00718,LOD001,OP005,OVERLOAD,ACTION,75.98,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00304,2026-01-06 17:23:53,T00062,EXC002,OP004,UNSTABLE_GROUND,ACTION,0.81,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00305,2026-01-20 10:37:14,T00637,EXC002,OP003,HIGH_ENGINE_IDLE,ACTION,3.54,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00306,2026-01-16 15:22:53,T00060,EXC001,OP004,HIGH_ENGINE_IDLE,ACTION,5.76,5.836,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00307,2026-01-10 07:21:22,T00348,DOZ001,OP004,ABNORMAL_CYCLE_TIME,ATTENTION,72.16,71.67,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00308,2026-01-18 17:41:10,T00734,DOZ001,OP006,SLOW_REACTION,ACTION,539.6,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00309,2026-01-01 17:33:38,T00491,DOZ001,OP001,HARSH_SWING,ACTION,9.0,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00310,2026-01-16 08:36:45,T00452,DOZ001,OP001,EXCESS_IDLE,ACTION,5.01,5.826,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00311,2026-01-04 17:02:29,T00790,EXC001,OP003,RAPID_CONTROL_CORRECTIONS,CRITICAL,3.33,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00312,2026-01-30 11:55:38,T00261,EXC002,OP002,PROXIMITY_APPROACH,ATTENTION,16.85,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00313,2026-01-07 15:37:26,T00242,LOD001,OP003,RAPID_CONTROL_CORRECTIONS,ATTENTION,2.09,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00314,2026-01-10 14:17:39,T00849,LOD001,OP005,HARSH_SWING,ACTION,11.4,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00315,2026-01-02 11:16:41,T00842,DOZ001,OP008,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00316,2026-01-09 09:25:13,T00262,DOZ001,OP008,UNEXPECTED_MOVEMENT,ACTION,2.85,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00317,2026-01-19 06:27:26,T00936,EXC002,OP004,EXCESS_IDLE,ATTENTION,3.85,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00318,2026-01-16 11:31:52,T00265,EXC001,OP003,UNEXPECTED_MOVEMENT,ATTENTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00319,2026-01-10 13:59:08,T00656,EXC002,OP001,UNEXPECTED_MOVEMENT,ACTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00320,2026-01-19 17:44:52,T00901,EXC001,OP002,UNSTABLE_GROUND,ATTENTION,0.72,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00321,2026-01-22 10:02:05,T00605,EXC001,OP004,ABNORMAL_CYCLE_TIME,ACTION,39.69,38.52,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00322,2026-01-03 09:13:37,T00029,EXC001,OP001,HIGH_ENGINE_IDLE,ACTION,0.0,5.826,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00323,2026-01-02 16:46:06,T00759,EXC001,OP006,UNSTABLE_GROUND,ATTENTION,0.921,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00324,2026-01-17 13:33:57,T00671,EXC001,OP004,EXCESS_IDLE,CRITICAL,6.0,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00325,2026-01-12 07:57:59,T00837,DOZ001,OP007,EXCESS_IDLE,CRITICAL,5.79,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00326,2026-01-28 13:54:56,T00908,LOD001,OP004,PROXIMITY_APPROACH,CRITICAL,29.4,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00327,2026-01-20 09:51:30,T00500,DOZ001,OP005,UNEXPECTED_MOVEMENT,ATTENTION,1.79,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00328,2026-01-13 11:50:08,T00505,DOZ001,OP005,UNEXPECTED_MOVEMENT,ATTENTION,0.0,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00329,2026-01-03 07:25:54,T00991,EXC002,OP007,RAPID_CONTROL_CORRECTIONS,ACTION,4.3,3.554,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00330,2026-01-04 13:18:57,T00460,EXC001,OP005,OVERLOAD,ATTENTION,66.93,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00331,2026-01-03 17:01:34,T00054,EXC002,OP007,EXCESS_IDLE,ATTENTION,11.78,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00332,2026-01-12 15:15:26,T00079,LOD001,OP001,EXCESS_IDLE,ATTENTION,7.43,5.826,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00333,2026-01-18 09:15:05,T00113,DOZ001,OP008,UNEXPECTED_MOVEMENT,ACTION,3.23,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00334,2026-01-26 13:56:46,T00757,EXC002,OP003,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00335,2026-01-01 13:17:23,T00398,LOD001,OP003,HIGH_ENGINE_IDLE,ATTENTION,1.47,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00336,2026-01-01 14:05:36,T00466,EXC002,OP001,UNSTABLE_GROUND,ACTION,0.88,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00337,2026-01-18 15:25:36,T00569,DOZ001,OP006,OVERLOAD,ATTENTION,69.0,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00338,2026-01-20 09:19:33,T00478,EXC002,OP004,RAPID_CONTROL_CORRECTIONS,ACTION,5.43,2.37,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00339,2026-01-19 16:38:09,T00735,EXC002,OP002,UNEXPECTED_MOVEMENT,ATTENTION,1.68,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00340,2026-01-29 14:40:56,T00542,EXC002,OP003,SLOW_REACTION,ATTENTION,485.0,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00341,2026-01-19 07:17:29,T00938,EXC002,OP006,SLOW_REACTION,ACTION,449.8,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00342,2026-01-18 15:26:10,T00116,DOZ001,OP006,HIGH_FUEL_PER_CYCLE,ACTION,9.873,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00343,2026-01-09 10:34:23,T00895,EXC001,OP007,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00344,2026-01-05 15:05:57,T00273,DOZ001,OP008,HIGH_FUEL_PER_CYCLE,ATTENTION,4.07,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00345,2026-01-09 07:21:26,T00381,EXC002,OP003,UNEXPECTED_MOVEMENT,ATTENTION,0.01,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00346,2026-01-09 07:14:18,T00141,EXC002,OP007,OVERLOAD,ATTENTION,65.68,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00347,2026-01-20 09:36:57,T00500,DOZ001,OP005,ABNORMAL_CYCLE_TIME,ATTENTION,46.52,48.55,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00348,2026-01-12 14:49:08,T00222,EXC002,OP001,HIGH_FUEL_PER_CYCLE,ACTION,10.535,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00349,2026-01-12 16:16:00,T00663,EXC002,OP003,PROXIMITY_APPROACH,ACTION,13.35,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00350,2026-01-29 15:31:34,T00188,EXC001,OP006,RAPID_CONTROL_CORRECTIONS,ATTENTION,3.7,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00351,2026-01-12 10:40:51,T00950,EXC002,OP005,SLOW_REACTION,ACTION,535.6,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00352,2026-01-05 17:35:17,T00860,LOD001,OP002,UNSTABLE_GROUND,ACTION,0.877,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00353,2026-01-19 11:06:30,T00435,DOZ001,OP008,EXCESS_IDLE,ACTION,5.05,5.594,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00354,2026-01-04 15:29:33,T00861,EXC001,OP002,PROXIMITY_APPROACH,ATTENTION,9.74,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00355,2026-01-19 10:53:01,T00462,LOD001,OP005,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00356,2026-01-08 13:29:34,T00003,EXC001,OP007,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00357,2026-01-13 10:07:01,T00941,EXC002,OP002,RAPID_CONTROL_CORRECTIONS,ACTION,4.51,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00358,2026-01-26 13:36:53,T00243,EXC001,OP006,UNEXPECTED_MOVEMENT,CRITICAL,1.24,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00359,2026-01-10 10:42:29,T00931,LOD001,OP007,HARSH_SWING,ACTION,17.5,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00360,2026-01-01 07:38:19,T00002,EXC002,OP001,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.29,2.69,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00361,2026-01-14 07:12:16,T00477,EXC002,OP003,UNEXPECTED_MOVEMENT,ATTENTION,2.06,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00362,2026-01-28 08:12:21,T00677,EXC001,OP004,ABNORMAL_CYCLE_TIME,ATTENTION,86.75,92.86,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00363,2026-01-13 13:15:21,T00331,EXC002,OP006,EXCESS_IDLE,ACTION,3.13,2.217,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00364,2026-01-27 13:06:40,T00068,DOZ001,OP004,EXCESS_IDLE,ACTION,7.21,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00365,2026-01-24 16:11:47,T00174,EXC002,OP006,PROXIMITY_APPROACH,ATTENTION,10.94,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00366,2026-01-16 07:14:23,T00754,LOD001,OP005,UNSTABLE_GROUND,ACTION,0.899,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00367,2026-01-11 10:39:28,T00357,EXC002,OP005,PROXIMITY_APPROACH,ACTION,28.25,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00368,2026-01-14 10:42:05,T00319,EXC002,OP005,BELT_VIOLATION,CRITICAL,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00369,2026-01-19 11:30:31,T00435,DOZ001,OP008,HARSH_SWING,ATTENTION,19.5,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00370,2026-01-05 09:51:00,T00135,EXC002,OP002,RAPID_CONTROL_CORRECTIONS,ACTION,6.82,3.751,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00371,2026-01-22 09:45:24,T00554,EXC002,OP002,OVERLOAD,ACTION,74.56,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00372,2026-01-08 15:32:46,T00535,EXC001,OP003,RAPID_CONTROL_CORRECTIONS,ACTION,5.37,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00373,2026-01-19 13:45:25,T00748,LOD001,OP001,SLOW_REACTION,ATTENTION,563.1,420.059,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00374,2026-01-16 06:29:16,T00118,DOZ001,OP003,HIGH_ENGINE_IDLE,ATTENTION,2.13,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00375,2026-01-01 17:09:02,T00491,DOZ001,OP001,ABNORMAL_CYCLE_TIME,CRITICAL,55.45,52.33,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00376,2026-01-14 11:44:03,T00787,EXC001,OP004,SLOW_REACTION,ATTENTION,478.6,470.663,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00377,2026-01-13 12:24:34,T00505,DOZ001,OP005,HARSH_SWING,CRITICAL,16.2,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00378,2026-01-01 13:55:50,T00466,EXC002,OP001,PROXIMITY_APPROACH,ACTION,24.36,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00379,2026-01-05 14:44:20,T00978,DOZ001,OP004,HARSH_SWING,ATTENTION,7.0,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00380,2026-01-19 06:32:02,T00936,EXC002,OP004,RAPID_CONTROL_CORRECTIONS,ATTENTION,1.77,2.37,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00381,2026-01-20 10:17:54,T00592,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,4.02,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00382,2026-01-26 14:19:01,T00063,EXC002,OP003,RAPID_CONTROL_CORRECTIONS,ATTENTION,2.98,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00383,2026-01-13 17:21:39,T00441,LOD001,OP005,RAPID_CONTROL_CORRECTIONS,ACTION,4.35,4.673,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00384,2026-01-09 15:57:03,T00945,DOZ001,OP008,PROXIMITY_APPROACH,CRITICAL,17.02,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00385,2026-01-11 08:04:43,T00678,DOZ001,OP003,HIGH_ENGINE_IDLE,ATTENTION,10.46,5.841,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00386,2026-01-11 14:09:21,T00887,DOZ001,OP004,HARSH_SWING,ACTION,13.0,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00387,2026-01-02 08:00:47,T00358,DOZ001,OP001,EXCESS_IDLE,ACTION,3.94,5.826,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00388,2026-01-30 11:50:38,T00261,EXC002,OP002,HARSH_SWING,ACTION,29.8,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00389,2026-01-05 13:49:52,T00072,EXC001,OP007,HIGH_FUEL_PER_CYCLE,CRITICAL,4.154,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00390,2026-01-11 07:57:43,T00386,DOZ001,OP005,ABNORMAL_CYCLE_TIME,CRITICAL,74.91,70.72,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00391,2026-01-30 12:00:38,T00261,EXC002,OP002,OVERLOAD,ACTION,75.36,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00392,2026-01-16 09:30:24,T00715,LOD001,OP002,SLOW_REACTION,ATTENTION,507.8,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00393,2026-01-02 16:42:16,T00759,EXC001,OP006,PROXIMITY_APPROACH,ACTION,12.71,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00394,2026-01-15 07:51:40,T00234,EXC002,OP004,SLOW_REACTION,ACTION,555.0,470.663,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00395,2026-01-18 18:18:56,T00734,DOZ001,OP006,ABNORMAL_CYCLE_TIME,CRITICAL,47.04,50.14,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00396,2026-01-16 14:55:51,T00613,EXC002,OP005,PROXIMITY_APPROACH,CRITICAL,15.62,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00397,2026-01-26 08:29:45,T00205,DOZ001,OP003,SLOW_REACTION,ACTION,492.6,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00398,2026-01-24 12:13:17,T00445,DOZ001,OP005,UNEXPECTED_MOVEMENT,CRITICAL,2.45,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00399,2026-01-29 15:15:39,T00615,LOD001,OP007,HIGH_FUEL_PER_CYCLE,ACTION,5.223,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00400,2026-01-13 07:37:20,T00364,DOZ001,OP004,ABNORMAL_CYCLE_TIME,ACTION,51.73,57.98,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00401,2026-01-02 10:33:52,T00044,EXC002,OP003,HARSH_SWING,ACTION,121.9,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00402,2026-01-23 10:24:19,T00325,EXC001,OP008,EXCESS_IDLE,ATTENTION,11.23,5.594,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00403,2026-01-01 06:11:05,T00480,DOZ001,OP004,PROXIMITY_APPROACH,ATTENTION,26.97,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00404,2026-01-07 16:10:26,T00520,LOD001,OP005,HIGH_FUEL_PER_CYCLE,ACTION,5.432,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00405,2026-01-18 13:50:29,T00508,LOD001,OP006,UNEXPECTED_MOVEMENT,ACTION,3.22,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00406,2026-01-28 17:01:46,T00369,EXC002,OP001,ABNORMAL_CYCLE_TIME,ATTENTION,86.96,84.14,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00407,2026-01-01 12:28:53,T00359,EXC002,OP008,PROXIMITY_APPROACH,ATTENTION,18.91,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00408,2026-01-01 09:30:44,T00956,EXC001,OP003,HARSH_SWING,CRITICAL,93.4,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00409,2026-01-25 17:00:47,T00015,EXC001,OP005,UNSTABLE_GROUND,ATTENTION,0.806,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00410,2026-01-23 10:56:02,T00448,DOZ001,OP006,ABNORMAL_CYCLE_TIME,ACTION,55.11,59.94,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00411,2026-01-25 09:02:39,T00932,EXC002,OP008,HIGH_FUEL_PER_CYCLE,ATTENTION,11.707,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00412,2026-01-24 12:30:29,T00133,EXC002,OP006,ABNORMAL_CYCLE_TIME,CRITICAL,39.08,36.76,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00413,2026-01-03 16:25:19,T00099,LOD001,OP008,ABNORMAL_CYCLE_TIME,ATTENTION,58.01,60.0,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00414,2026-01-23 09:29:10,T00397,LOD001,OP002,PROXIMITY_APPROACH,ACTION,26.5,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00415,2026-01-16 08:01:40,T00362,EXC001,OP004,EXCESS_IDLE,CRITICAL,7.08,5.836,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00416,2026-01-07 08:48:06,T00198,EXC001,OP005,SLOW_REACTION,ATTENTION,456.4,416.965,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00417,2026-01-09 06:44:06,T00141,EXC002,OP007,HARSH_SWING,ACTION,59.5,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00418,2026-01-28 08:57:35,T00484,EXC001,OP001,HIGH_FUEL_PER_CYCLE,CRITICAL,3.353,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00419,2026-01-21 10:10:57,T00361,EXC001,OP007,BELT_VIOLATION,CRITICAL,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00420,2026-01-02 10:20:58,T00523,LOD001,OP008,RAPID_CONTROL_CORRECTIONS,ATTENTION,3.56,2.36,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00421,2026-01-29 10:48:45,T00817,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.26,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00422,2026-01-28 07:53:53,T00028,LOD001,OP004,PROXIMITY_APPROACH,ACTION,14.65,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00423,2026-01-08 16:38:16,T00131,LOD001,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,4.14,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00424,2026-01-29 10:58:12,T00239,EXC002,OP003,PROXIMITY_APPROACH,CRITICAL,26.76,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00425,2026-01-24 08:41:37,T00632,EXC002,OP006,HARSH_SWING,ATTENTION,115.4,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00426,2026-01-02 11:10:19,T00848,EXC002,OP003,EXCESS_IDLE,ATTENTION,10.05,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00427,2026-01-23 07:56:39,T00846,DOZ001,OP008,HARSH_SWING,ATTENTION,5.8,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00428,2026-01-11 17:16:44,T00224,DOZ001,OP003,HARSH_SWING,ATTENTION,6.6,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00429,2026-01-19 13:45:09,T00747,EXC002,OP001,OVERLOAD,ACTION,70.85,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00430,2026-01-30 07:18:14,T00440,EXC001,OP002,SLOW_REACTION,ACTION,634.7,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00431,2026-01-13 13:15:21,T00331,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,5.5,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00432,2026-01-30 15:38:46,T00859,EXC001,OP002,UNSTABLE_GROUND,ATTENTION,0.792,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00433,2026-01-13 10:12:35,T00274,DOZ001,OP001,UNEXPECTED_MOVEMENT,ACTION,3.55,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00434,2026-01-25 16:32:32,T00207,DOZ001,OP001,PROXIMITY_APPROACH,CRITICAL,35.57,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00435,2026-01-29 16:44:09,T00910,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.24,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00436,2026-01-24 18:46:23,T00959,EXC001,OP003,SLOW_REACTION,ACTION,460.9,386.695,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00437,2026-01-10 13:25:27,T00702,EXC002,OP002,PROXIMITY_APPROACH,ACTION,37.71,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00438,2026-01-14 13:31:03,T00853,EXC001,OP002,SLOW_REACTION,ACTION,536.3,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00439,2026-01-14 13:45:39,T00475,EXC001,OP002,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00440,2026-01-05 16:41:47,T00537,DOZ001,OP006,ABNORMAL_CYCLE_TIME,ACTION,58.8,62.51,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00441,2026-01-12 16:20:19,T00663,EXC002,OP003,EXCESS_IDLE,ACTION,6.14,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00442,2026-01-09 08:43:45,T00004,EXC002,OP006,OVERLOAD,CRITICAL,66.6,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00443,2026-01-19 16:03:54,T00184,EXC002,OP002,SLOW_REACTION,CRITICAL,488.7,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00444,2026-01-02 09:56:09,T00181,LOD001,OP003,RAPID_CONTROL_CORRECTIONS,ATTENTION,4.58,2.774,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00445,2026-01-09 10:38:52,T00895,EXC001,OP007,HIGH_ENGINE_IDLE,ATTENTION,5.05,2.688,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00446,2026-01-03 15:32:37,T00553,DOZ001,OP004,UNEXPECTED_MOVEMENT,ATTENTION,3.17,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00447,2026-01-15 09:42:02,T00521,EXC001,OP006,HIGH_ENGINE_IDLE,ACTION,4.23,2.217,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00448,2026-01-07 10:46:30,T00109,DOZ001,OP001,PROXIMITY_APPROACH,ATTENTION,24.05,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00449,2026-01-20 09:56:21,T00500,DOZ001,OP005,EXCESS_IDLE,ACTION,4.19,7.605,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00450,2026-01-03 14:41:37,T00288,EXC002,OP006,RAPID_CONTROL_CORRECTIONS,ACTION,5.55,3.319,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00451,2026-01-29 06:06:02,T00814,LOD001,OP006,OVERLOAD,ACTION,103.87,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00452,2026-01-03 09:51:25,T00401,LOD001,OP001,HIGH_ENGINE_IDLE,ACTION,4.28,5.826,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00453,2026-01-05 06:37:45,T00699,EXC002,OP001,SLOW_REACTION,ACTION,497.6,420.059,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00454,2026-01-21 14:50:35,T00050,EXC002,OP006,HIGH_ENGINE_IDLE,ATTENTION,3.58,2.217,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00455,2026-01-25 13:38:26,T00481,DOZ001,OP002,HARSH_SWING,ATTENTION,13.1,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00456,2026-01-06 09:21:44,T00683,DOZ001,OP003,HARSH_SWING,ATTENTION,1.3,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00457,2026-01-17 13:10:16,T00571,EXC001,OP004,PROXIMITY_APPROACH,ATTENTION,20.16,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00458,2026-01-22 12:26:34,T00056,EXC001,OP007,EXCESS_IDLE,ATTENTION,6.95,2.688,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00459,2026-01-05 14:56:21,T00273,DOZ001,OP008,OVERLOAD,ACTION,56.53,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00460,2026-01-01 07:33:36,T00873,DOZ001,OP003,OVERLOAD,ACTION,40.79,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00461,2026-01-25 13:29:06,T00372,DOZ001,OP003,EXCESS_IDLE,ATTENTION,9.03,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00462,2026-01-04 06:42:51,T00954,EXC001,OP007,HARSH_SWING,ACTION,131.9,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00463,2026-01-25 14:55:36,T00648,EXC001,OP007,SLOW_REACTION,ATTENTION,440.8,416.906,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00464,2026-01-25 14:09:12,T00474,EXC002,OP005,EXCESS_IDLE,ACTION,12.1,7.605,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00465,2026-01-11 08:20:44,T00183,EXC002,OP002,HIGH_FUEL_PER_CYCLE,ACTION,3.707,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00466,2026-01-05 08:54:23,T00948,EXC002,OP005,HIGH_ENGINE_IDLE,ACTION,6.41,7.605,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00467,2026-01-29 06:31:18,T00206,EXC001,OP004,UNSTABLE_GROUND,ATTENTION,0.679,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00468,2026-01-23 08:41:19,T00846,DOZ001,OP008,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00469,2026-01-29 10:39:06,T00239,EXC002,OP003,HARSH_SWING,ATTENTION,23.6,110.0,Swing activity was unusually abrupt for the current task,Reduce swing speed and confirm the swing zone is clear
+A00470,2026-01-05 17:20:36,T00994,EXC002,OP008,HIGH_ENGINE_IDLE,ACTION,8.97,5.594,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00471,2026-01-03 07:12:54,T00155,EXC002,OP002,HIGH_ENGINE_IDLE,ATTENTION,5.29,8.356,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00472,2026-01-13 09:36:48,T00061,EXC002,OP008,BELT_VIOLATION,ATTENTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00473,2026-01-12 15:05:48,T00079,LOD001,OP001,ABNORMAL_CYCLE_TIME,ATTENTION,38.9,38.55,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00474,2026-01-11 08:54:54,T00042,LOD001,OP001,SLOW_REACTION,ATTENTION,450.5,420.059,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00475,2026-01-22 07:41:46,T00769,LOD001,OP008,SLOW_REACTION,ATTENTION,608.5,551.875,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00476,2026-01-10 12:39:32,T00132,EXC001,OP001,OVERLOAD,ACTION,75.44,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00477,2026-01-06 09:36:50,T00447,DOZ001,OP001,RAPID_CONTROL_CORRECTIONS,ACTION,3.16,2.69,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00478,2026-01-02 08:47:38,T00499,LOD001,OP002,HIGH_FUEL_PER_CYCLE,ATTENTION,6.048,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00479,2026-01-24 06:37:37,T00987,LOD001,OP002,EXCESS_IDLE,ACTION,6.55,8.356,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00480,2026-01-06 07:54:05,T00345,DOZ001,OP008,RAPID_CONTROL_CORRECTIONS,ACTION,4.04,2.36,Control corrections increased above operator baseline,Pause if safe and stabilize machine control inputs
+A00481,2026-01-15 06:27:16,T00720,EXC001,OP006,SLOW_REACTION,ATTENTION,437.0,433.957,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00482,2026-01-01 12:28:53,T00359,EXC002,OP008,UNSTABLE_GROUND,ATTENTION,0.694,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00483,2026-01-24 16:03:27,T00654,EXC002,OP001,BELT_VIOLATION,ACTION,1.0,1.0,Seatbelt disengaged during machine movement,Stop movement and secure the seatbelt
+A00484,2026-01-05 08:07:57,T00163,LOD001,OP001,PROXIMITY_APPROACH,ATTENTION,13.22,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00485,2026-01-04 09:51:54,T00858,EXC001,OP008,SLOW_REACTION,ATTENTION,544.9,551.875,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00486,2026-01-02 11:45:52,T00842,DOZ001,OP008,SLOW_REACTION,ACTION,675.7,551.875,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00487,2026-01-09 09:55:28,T00573,DOZ001,OP002,SLOW_REACTION,ACTION,484.3,456.101,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00488,2026-01-29 14:27:16,T00542,EXC002,OP003,ABNORMAL_CYCLE_TIME,ACTION,35.41,36.34,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00489,2026-01-19 06:15:49,T00847,EXC002,OP003,EXCESS_IDLE,ATTENTION,0.0,5.841,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00490,2026-01-01 17:20:33,T00635,LOD001,OP008,SLOW_REACTION,CRITICAL,641.5,551.875,Reaction time was elevated relative to operator baseline,Pause at a safe stationary point and review operator workload
+A00491,2026-01-15 07:42:38,T00107,LOD001,OP001,HIGH_FUEL_PER_CYCLE,ATTENTION,6.808,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00492,2026-01-19 13:06:33,T00801,EXC001,OP008,EXCESS_IDLE,ACTION,9.48,5.594,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear
+A00493,2026-01-15 16:10:16,T00558,LOD001,OP004,UNEXPECTED_MOVEMENT,ATTENTION,3.05,0.0,Machine movement occurred during a non-moving task state,Stop movement and verify the intended machine state
+A00494,2026-01-29 15:16:11,T00034,EXC002,OP002,HIGH_ENGINE_IDLE,ATTENTION,2.42,8.356,Engine remained active while machine was stationary,Use safe standby when continued engine operation is not required
+A00495,2026-01-06 17:32:51,T00729,LOD001,OP007,PROXIMITY_APPROACH,ACTION,23.64,20.0,Person entered a closer-than-normal operating zone,Pause the relevant movement and confirm personnel clearance
+A00496,2026-01-12 12:10:55,T00293,DOZ001,OP004,UNSTABLE_GROUND,ATTENTION,0.843,0.6,Ground/slope conditions reduced the stability index,Stop the high-risk movement and reassess ground/stability conditions
+A00497,2026-01-04 12:28:09,T00208,EXC002,OP005,ABNORMAL_CYCLE_TIME,ATTENTION,28.8,30.66,Recent cycle time deviated materially from task baseline,Check task conditions and compare recent cycles with baseline
+A00498,2026-01-16 07:08:23,T00118,DOZ001,OP003,OVERLOAD,CRITICAL,57.1,90.0,Observed load exceeded the normal operating threshold,Reduce load and reassess the current lift/load condition
+A00499,2026-01-25 13:24:17,T00372,DOZ001,OP003,HIGH_FUEL_PER_CYCLE,ATTENTION,5.416,0.12,Fuel consumed per cycle was above task baseline,Check loading technique and avoid unnecessary high-load cycles
+A00500,2026-01-13 13:15:22,T00830,LOD001,OP001,EXCESS_IDLE,ATTENTION,10.48,5.826,Idle duration exceeded operator baseline while task was active,Stand by safely and resume when the work zone is clear

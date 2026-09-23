@@ -1,0 +1,9 @@
+training_id,title,anomaly_type,task_type,description,duration_min
+TR001,Idle Management,EXCESS_IDLE,ALL,Reduce unnecessary engine idle and improve standby behaviour,8
+TR002,Seatbelt Safety,BELT_VIOLATION,ALL,Reinforce seatbelt use before machine movement,6
+TR003,Load Limit Awareness,OVERLOAD,LIFT/LOAD,Recognize load-limit conditions before continuing work,10
+TR004,Controlled Swing,HARSH_SWING,DIG/LIFT,Practice controlled swing and zone awareness,9
+TR005,Proximity Awareness,PROXIMITY_APPROACH,DIG/LIFT/LOAD,Respond to personnel entering the operating zone,12
+TR006,Ground Stability,UNSTABLE_GROUND,DIG/LIFT/GRADE,Recognize changing ground and slope conditions,11
+TR007,Operator Control,RAPID_CONTROL_CORRECTIONS,ALL,Reduce repeated corrective inputs,8
+TR008,Cycle Efficiency,ABNORMAL_CYCLE_TIME,ALL,Identify causes of cycle-time deviation,10
