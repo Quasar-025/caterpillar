@@ -1,0 +1,13 @@
+{
+  "task_type": {
+    "DIG": 0,
+    "GRADE": 1,
+    "LIFT": 2,
+    "LOAD": 3
+  },
+  "machine_type": {
+    "DOZER": 0,
+    "EXCAVATOR": 1,
+    "LOADER": 2
+  }
+}
