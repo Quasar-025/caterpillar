@@ -17,6 +17,7 @@ import '../../telemetry/scenario_loader.dart';
 import '../../telemetry/simulator.dart';
 import '../../telemetry/simulator_providers.dart';
 import '../../telemetry/tick.dart';
+import '../task_ui/task_ui_coordinator.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -116,6 +117,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
 class _HomeSnapshot {
   const _HomeSnapshot({
+    required this.tick,
     required this.mode,
     required this.taskName,
     required this.zone,
@@ -137,6 +139,7 @@ class _HomeSnapshot {
     required this.live,
   });
 
+  final TelemetryTick? tick;
   final MachineMode mode;
   final String taskName;
   final String zone;
@@ -167,6 +170,7 @@ class _HomeSnapshot {
   ) {
     if (tick == null) {
       return const _HomeSnapshot(
+        tick: null,
         mode: MachineMode.dig,
         taskName: 'Trenching',
         zone: 'Zone B · East cut',
@@ -200,6 +204,7 @@ class _HomeSnapshot {
         ? previewEta
         : eta.etaRemainingMin.clamp(1, 180).round();
     return _HomeSnapshot(
+      tick: tick,
       mode: tick.mode,
       taskName: taskName,
       zone: tick.mode == MachineMode.lift
@@ -351,13 +356,9 @@ class _WideDashboard extends StatelessWidget {
               const SizedBox(height: 12),
               Expanded(
                 flex: 3,
-                child: Row(
-                  children: [
-                    Expanded(child: _SafetySummary(snapshot: snapshot)),
-                    const SizedBox(width: 12),
-                    Expanded(child: _MachineStrip(snapshot: snapshot)),
-                  ],
-                ),
+                child: snapshot.tick != null
+                    ? TaskUiCoordinator(tick: snapshot.tick!)
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
@@ -382,9 +383,7 @@ class _CompactDashboard extends StatelessWidget {
         const SizedBox(height: 12),
         SizedBox(height: 300, child: _CurrentTask(snapshot: snapshot)),
         const SizedBox(height: 12),
-        SizedBox(height: 158, child: _SafetySummary(snapshot: snapshot)),
-        const SizedBox(height: 12),
-        SizedBox(height: 178, child: _MachineStrip(snapshot: snapshot)),
+        if (snapshot.tick != null) TaskUiCoordinator(tick: snapshot.tick!),
         const SizedBox(height: 18),
         _ShiftRail(snapshot: snapshot),
       ],
@@ -649,74 +648,6 @@ class _ProgressValue extends StatelessWidget {
   }
 }
 
-class _SafetySummary extends StatelessWidget {
-  const _SafetySummary({required this.snapshot});
-
-  final _HomeSnapshot snapshot;
-
-  @override
-  Widget build(BuildContext context) {
-    return _Panel(
-      title: 'Safety',
-      icon: Icons.radar_rounded,
-      child: Row(
-        children: [
-          Expanded(
-            child: _LargeMeasure(
-              value: '${snapshot.workerDistance.toStringAsFixed(0)} m',
-              label: 'NEAREST WORKER',
-            ),
-          ),
-          const VerticalDivider(),
-          Expanded(
-            child: _LargeMeasure(
-              value: snapshot.seatbelt ? 'FASTENED' : 'UNFASTENED',
-              label: 'SEATBELT',
-              compact: true,
-              valueColor: snapshot.seatbelt ? CatTheme.safe : CatTheme.critical,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MachineStrip extends StatelessWidget {
-  const _MachineStrip({required this.snapshot});
-
-  final _HomeSnapshot snapshot;
-
-  @override
-  Widget build(BuildContext context) {
-    return _Panel(
-      title: 'Machine',
-      icon: Icons.precision_manufacturing_rounded,
-      child: Wrap(
-        spacing: 22,
-        runSpacing: 14,
-        children: [
-          _SmallMeasure(
-            label: 'FUEL',
-            value: '${snapshot.fuelPct.toStringAsFixed(0)}%',
-          ),
-          _SmallMeasure(
-            label: 'LOAD',
-            value: '${snapshot.loadPct.toStringAsFixed(0)}%',
-          ),
-          _SmallMeasure(
-            label: 'ENGINE',
-            value: '${snapshot.engineHours.toStringAsFixed(1)} h',
-          ),
-          _SmallMeasure(
-            label: 'IDLE',
-            value: '${snapshot.idleMinutes.toStringAsFixed(0)} min',
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _ShiftRail extends StatelessWidget {
   const _ShiftRail({required this.snapshot});
@@ -785,39 +716,6 @@ class _ShiftRail extends StatelessWidget {
   }
 }
 
-class _Panel extends StatelessWidget {
-  const _Panel({required this.title, required this.icon, required this.child});
-
-  final String title;
-  final IconData icon;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: CatTheme.panel,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: CatTheme.divider),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 20, color: CatTheme.yellow),
-              const SizedBox(width: 8),
-              Text(title, style: Theme.of(context).textTheme.titleLarge),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Expanded(child: child),
-        ],
-      ),
-    );
-  }
-}
 
 class _ModeBadge extends StatelessWidget {
   const _ModeBadge({required this.mode});
@@ -882,77 +780,6 @@ class _CompactPill extends StatelessWidget {
               color: Colors.white,
               fontSize: 13,
               fontWeight: FontWeight.w800,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LargeMeasure extends StatelessWidget {
-  const _LargeMeasure({
-    required this.value,
-    required this.label,
-    this.valueColor = CatTheme.textPrimary,
-    this.compact = false,
-  });
-
-  final String value;
-  final String label;
-  final Color valueColor;
-  final bool compact;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            value,
-            style: TextStyle(
-              color: valueColor,
-              fontSize: compact ? 21 : 32,
-              fontWeight: FontWeight.w800,
-              letterSpacing: compact ? 0 : -0.6,
-            ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
-    );
-  }
-}
-
-class _SmallMeasure extends StatelessWidget {
-  const _SmallMeasure({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 72,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: Theme.of(context).textTheme.labelMedium),
-          const SizedBox(height: 2),
-          Text(
-            value,
-            maxLines: 1,
-            style: const TextStyle(
-              color: CatTheme.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
             ),
           ),
         ],
