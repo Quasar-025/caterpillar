@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
+
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'machine_mode.dart';
 import 'scenario.dart';
@@ -99,7 +102,12 @@ final Map<String, Map<String, _OperatorBaseline>> _baselines = {
 ///                                       └──▶ Live ETA + ShiftRecovery
 /// ```
 class TelemetrySimulator {
-  TelemetrySimulator({Random? random}) : _rng = random ?? Random();
+  TelemetrySimulator({this.wsBaseUrl, Random? random}) : _rng = random ?? Random();
+
+  final String? wsBaseUrl;
+  bool useBackendStream = false;
+  WebSocketChannel? _wsChannel;
+  StreamSubscription? _wsSubscription;
 
   // ── Configuration ──────────────────────────────────────────────────────
 
@@ -194,10 +202,34 @@ class TelemetrySimulator {
     _resetSimState();
 
     _setState(SimulatorState.running);
-    advanceBy(Duration.zero);
-    if (autoplay) {
-      _timer = Timer.periodic(_wallTickInterval, _onWallTick);
+    if (useBackendStream && wsBaseUrl != null) {
+      _startBackendStream();
+    } else {
+      advanceBy(Duration.zero);
+      if (autoplay) {
+        _timer = Timer.periodic(_wallTickInterval, _onWallTick);
+      }
     }
+  }
+
+  void _startBackendStream() {
+    final url = Uri.parse('$wsBaseUrl/telemetry/stream?time_scale=$_timeScale');
+    _wsChannel = WebSocketChannel.connect(url);
+    _wsSubscription = _wsChannel!.stream.listen(
+      (message) {
+        if (_state == SimulatorState.running) {
+          try {
+            final json = jsonDecode(message as String);
+            final tick = TelemetryTick.fromJson(json);
+            _controller.add(tick);
+          } catch (e) {
+            print('Error parsing telemetry JSON: $e');
+          }
+        }
+      },
+      onError: (e) => print('WebSocket error: $e'),
+      onDone: () => print('WebSocket closed'),
+    );
   }
 
   void pause() {
@@ -209,12 +241,18 @@ class TelemetrySimulator {
   void resume() {
     if (_state != SimulatorState.paused) return;
     _setState(SimulatorState.running);
-    _timer = Timer.periodic(_wallTickInterval, _onWallTick);
+    if (!useBackendStream) {
+      _timer = Timer.periodic(_wallTickInterval, _onWallTick);
+    }
   }
 
   void stop() {
     _timer?.cancel();
     _timer = null;
+    _wsSubscription?.cancel();
+    _wsSubscription = null;
+    _wsChannel?.sink.close();
+    _wsChannel = null;
     if (_state != SimulatorState.idle) {
       _setState(SimulatorState.idle);
     }
@@ -225,6 +263,12 @@ class TelemetrySimulator {
       throw ArgumentError.value(scale, 'scale', 'Must be 1, 10, or 60');
     }
     _timeScale = scale;
+    if (useBackendStream && _state == SimulatorState.running) {
+      // Reconnect with new time scale
+      _wsSubscription?.cancel();
+      _wsChannel?.sink.close();
+      _startBackendStream();
+    }
   }
 
   /// Advances the scenario by an exact amount of simulated time.

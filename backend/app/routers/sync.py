@@ -1,3 +1,4 @@
+import threading
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, Query
@@ -9,10 +10,12 @@ from app.sync.schemas import PullResponse, PushRequest, PushResponse
 
 router = APIRouter(prefix="/sync", tags=["sync"])
 
+_push_lock = threading.Lock()
 
 @router.post("/push", response_model=PushResponse)
 def push_changes(request: PushRequest, session: Session = Depends(get_session)) -> PushResponse:
-    return apply_push(session, request)
+    with _push_lock:
+        return apply_push(session, request)
 
 
 @router.get("/pull", response_model=PullResponse)

@@ -145,40 +145,61 @@ class TelemetryTick {
   // ── Serialisation ─────────────────────────────────────────────────────
 
   factory TelemetryTick.fromJson(Map<String, dynamic> j) {
+    double parseDouble(dynamic v) {
+      if (v == null) return 0.0;
+      if (v is num) return v.toDouble();
+      if (v is String) return double.tryParse(v) ?? 0.0;
+      return 0.0;
+    }
+
+    int parseInt(dynamic v) {
+      if (v == null) return 0;
+      if (v is num) return v.toInt();
+      if (v is String) return int.tryParse(v) ?? 0;
+      return 0;
+    }
+
+    bool parseBool(dynamic v) {
+      if (v == null) return false;
+      if (v is bool) return v;
+      if (v is num) return v == 1;
+      if (v is String) return v == '1' || v.toLowerCase() == 'true';
+      return false;
+    }
+
     return TelemetryTick(
       timestamp: DateTime.parse(j['timestamp'] as String),
       machineId: j['machine_id'] as String,
       operatorId: j['operator_id'] as String,
-      engineHours: (j['engine_hours'] as num).toDouble(),
-      fuelUsedL: (j['fuel_used_l'] as num).toDouble(),
-      loadCycles: (j['load_cycles'] as num).toInt(),
-      idleMin: (j['idle_min'] as num).toDouble(),
-      seatbelt: j['seatbelt'] == 1 || j['seatbelt'] == true,
+      engineHours: parseDouble(j['engine_hours']),
+      fuelUsedL: parseDouble(j['fuel_used_l']),
+      loadCycles: parseInt(j['load_cycles']),
+      idleMin: parseDouble(j['idle_min']),
+      seatbelt: parseBool(j['seatbelt']),
       safetyAlert: j['safety_alert'] as String? ?? 'NONE',
       taskId: j['task_id'] as String,
       mode: MachineMode.fromString(j['mode'] as String),
-      progressPct: (j['progress_pct'] as num).toDouble(),
-      cycleTimeSec: (j['cycle_time_sec'] as num).toDouble(),
-      rollingCycleTimeSec: (j['rolling_cycle_time_sec'] as num).toDouble(),
-      speed: (j['speed'] as num).toDouble(),
-      isMoving: j['is_moving'] == 1 || j['is_moving'] == true,
-      swingAngle: (j['swing_angle'] as num).toDouble(),
+      progressPct: parseDouble(j['progress_pct']),
+      cycleTimeSec: parseDouble(j['cycle_time_sec']),
+      rollingCycleTimeSec: parseDouble(j['rolling_cycle_time_sec']),
+      speed: parseDouble(j['speed']),
+      isMoving: parseBool(j['is_moving']),
+      swingAngle: parseDouble(j['swing_angle']),
       swingDir: SwingDirection.fromString(j['swing_dir'] as String),
-      loadPct: (j['load_pct'] as num).toDouble(),
-      safeLoadLimit: (j['safe_load_limit'] as num).toDouble(),
-      slopeDeg: (j['slope_deg'] as num).toDouble(),
-      stabilityIdx: (j['stability_idx'] as num).toDouble(),
-      nearestPersonM: (j['nearest_person_m'] as num).toDouble(),
-      personBearingDeg: (j['person_bearing_deg'] as num).toDouble(),
-      rain: (j['rain'] as num).toDouble(),
-      visibility: (j['visibility'] as num).toDouble(),
-      isNight: j['is_night'] == 1 || j['is_night'] == true,
-      groundSoftness: (j['ground_softness'] as num).toDouble(),
-      fuelPct: (j['fuel_pct'] as num).toDouble(),
-      hydraulicPressure: (j['hydraulic_pressure'] as num).toDouble(),
-      controlCorrectionsPerMin:
-          (j['control_corrections_per_min'] as num).toDouble(),
-      reactionMs: (j['reaction_ms'] as num).toDouble(),
+      loadPct: parseDouble(j['load_pct']),
+      safeLoadLimit: parseDouble(j['safe_load_limit']),
+      slopeDeg: parseDouble(j['slope_deg']),
+      stabilityIdx: parseDouble(j['stability_idx']),
+      nearestPersonM: parseDouble(j['nearest_person_m']),
+      personBearingDeg: parseDouble(j['person_bearing_deg']),
+      rain: parseDouble(j['rain']),
+      visibility: parseDouble(j['visibility']),
+      isNight: parseBool(j['is_night']),
+      groundSoftness: parseDouble(j['ground_softness']),
+      fuelPct: parseDouble(j['fuel_pct']),
+      hydraulicPressure: parseDouble(j['hydraulic_pressure']),
+      controlCorrectionsPerMin: parseDouble(j['control_corrections_per_min']),
+      reactionMs: parseDouble(j['reaction_ms']),
       t0: DateTime.now(),
     );
   }

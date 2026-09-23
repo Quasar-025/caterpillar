@@ -1,14 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../core/api_config.dart';
 
 import 'machine_mode.dart';
 import 'simulator.dart';
 import 'tick.dart';
 
-/// The [TelemetrySimulator] singleton — lives for the app lifetime.
+final useBackendStreamProvider = StateProvider<bool>((ref) => false);
+
+/// The [TelemetrySimulator] singleton — lives for the app lifetime (until recreated).
 ///
 /// All downstream providers watch this instance's streams.
 final simulatorProvider = Provider<TelemetrySimulator>((ref) {
-  final sim = TelemetrySimulator();
+  final wsBaseUrl = ref.watch(wsBaseUrlProvider);
+  final useBackend = ref.watch(useBackendStreamProvider);
+  final sim = TelemetrySimulator(wsBaseUrl: wsBaseUrl);
+  sim.useBackendStream = useBackend;
   ref.onDispose(sim.dispose);
   return sim;
 });
