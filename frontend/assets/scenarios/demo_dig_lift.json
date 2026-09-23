@@ -1,0 +1,15 @@
+{
+  "machine": "EXC001",
+  "operator": "OP001",
+  "timeline": [
+    {"t": "08:00", "mode": "DIG",  "task": "T1"},
+    {"t": "09:45", "mode": "LIFT", "task": "T2"},
+    {"t": "10:20", "mode": "DIG",  "task": "T3"}
+  ],
+  "events": [
+    {"t": "08:30", "set": {"rain": 1, "ground_softness": 0.5}},
+    {"t": "09:10", "set": {"ground_softness": 0.7}},
+    {"t": "09:55", "worker_path": "approach_swing_zone"},
+    {"t": "10:05", "set": {"rain": 0, "ground_softness": 0.3}}
+  ]
+}
