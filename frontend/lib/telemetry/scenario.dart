@@ -33,7 +33,9 @@ class Scenario {
   /// plus a 10-minute tail so the final segment has room to run.
   Duration get totalDuration {
     if (timeline.isEmpty) return Duration.zero;
-    return timeline.last.offset + const Duration(minutes: 10);
+    return timeline.last.offset -
+        timeline.first.offset +
+        const Duration(minutes: 10);
   }
 
   factory Scenario.fromJson(Map<String, dynamic> j) {
@@ -41,6 +43,16 @@ class Scenario {
         .map((e) => TimelineEntry.fromJson(e as Map<String, dynamic>))
         .toList()
       ..sort((a, b) => a.offset.compareTo(b.offset));
+    if (timeline.isEmpty) {
+      throw const FormatException('A scenario needs at least one timeline entry');
+    }
+    for (var index = 1; index < timeline.length; index++) {
+      if (timeline[index - 1].offset == timeline[index].offset) {
+        throw const FormatException(
+          'Scenario timeline entries must use unique times',
+        );
+      }
+    }
 
     final rawEvents = j['events'] as List?;
     final events = rawEvents

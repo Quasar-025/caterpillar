@@ -99,7 +99,7 @@ final Map<String, Map<String, _OperatorBaseline>> _baselines = {
 ///                                       └──▶ Live ETA + ShiftRecovery
 /// ```
 class TelemetrySimulator {
-  TelemetrySimulator();
+  TelemetrySimulator({Random? random}) : _rng = random ?? Random();
 
   // ── Configuration ──────────────────────────────────────────────────────
 
@@ -141,7 +141,7 @@ class TelemetrySimulator {
   /// Index of the next unprocessed scenario event.
   int _nextEventIdx = 0;
 
-  final _rng = Random();
+  final Random _rng;
 
   // ── Mutable sim-state that evolves tick to tick ────────────────────────
 
@@ -176,7 +176,7 @@ class TelemetrySimulator {
   // ── Public controls ────────────────────────────────────────────────────
 
   /// Start the simulator with the given scenario.
-  void start(Scenario scenario) {
+  void start(Scenario scenario, {bool autoplay = true}) {
     stop();
     _scenario = scenario;
 
@@ -194,7 +194,10 @@ class TelemetrySimulator {
     _resetSimState();
 
     _setState(SimulatorState.running);
-    _timer = Timer.periodic(_wallTickInterval, _onWallTick);
+    advanceBy(Duration.zero);
+    if (autoplay) {
+      _timer = Timer.periodic(_wallTickInterval, _onWallTick);
+    }
   }
 
   void pause() {
@@ -218,8 +221,54 @@ class TelemetrySimulator {
   }
 
   void setTimeScale(double scale) {
-    assert(scale == 1.0 || scale == 10.0 || scale == 60.0);
+    if (scale != 1.0 && scale != 10.0 && scale != 60.0) {
+      throw ArgumentError.value(scale, 'scale', 'Must be 1, 10, or 60');
+    }
     _timeScale = scale;
+  }
+
+  /// Advances the scenario by an exact amount of simulated time.
+  ///
+  /// The periodic timer uses this method in normal operation. Tests and demo
+  /// controls can start with `autoplay: false` and step without waiting.
+  void advanceBy(Duration simulatedDelta) {
+    final scenario = _scenario;
+    if (scenario == null || _state != SimulatorState.running) return;
+
+    _simElapsed += simulatedDelta;
+
+    if (_simElapsed > scenario.totalDuration) {
+      stop();
+      return;
+    }
+
+    final firstOffset = scenario.timeline.first.offset;
+    final currentSimOffset = firstOffset + _simElapsed;
+
+    while (_currentSegmentIdx < scenario.timeline.length - 1) {
+      final nextSeg = scenario.timeline[_currentSegmentIdx + 1];
+      if (currentSimOffset >= nextSeg.offset) {
+        _currentSegmentIdx++;
+        _progressPct = 0;
+        _cycleTimeBuffer.clear();
+      } else {
+        break;
+      }
+    }
+
+    final segment = scenario.timeline[_currentSegmentIdx];
+
+    while (_nextEventIdx < scenario.events.length) {
+      final event = scenario.events[_nextEventIdx];
+      if (currentSimOffset >= event.offset) {
+        _applyEvent(event);
+        _nextEventIdx++;
+      } else {
+        break;
+      }
+    }
+
+    _controller.add(_generateTick(scenario, segment, currentSimOffset));
   }
 
   void dispose() {
@@ -257,53 +306,10 @@ class TelemetrySimulator {
   }
 
   void _onWallTick(Timer _) {
-    final scenario = _scenario;
-    if (scenario == null || _state != SimulatorState.running) return;
-
-    // Advance simulated time
     final simDelta = Duration(
       microseconds: (_wallTickInterval.inMicroseconds * _timeScale).round(),
     );
-    _simElapsed += simDelta;
-
-    // Check if past scenario end
-    if (_simElapsed > scenario.totalDuration) {
-      stop();
-      return;
-    }
-
-    // Compute absolute sim time (relative to the first timeline entry)
-    final firstOffset = scenario.timeline.first.offset;
-    final currentSimOffset = firstOffset + _simElapsed;
-
-    // ── Process timeline segment transitions ────────────────────────────
-    while (_currentSegmentIdx < scenario.timeline.length - 1) {
-      final nextSeg = scenario.timeline[_currentSegmentIdx + 1];
-      if (currentSimOffset >= nextSeg.offset) {
-        _currentSegmentIdx++;
-        _progressPct = 0; // reset for new task
-        _cycleTimeBuffer.clear();
-      } else {
-        break;
-      }
-    }
-
-    final segment = scenario.timeline[_currentSegmentIdx];
-
-    // ── Process scenario events ─────────────────────────────────────────
-    while (_nextEventIdx < scenario.events.length) {
-      final evt = scenario.events[_nextEventIdx];
-      if (currentSimOffset >= evt.offset) {
-        _applyEvent(evt);
-        _nextEventIdx++;
-      } else {
-        break;
-      }
-    }
-
-    // ── Compute the tick ────────────────────────────────────────────────
-    final tick = _generateTick(scenario, segment, currentSimOffset);
-    _controller.add(tick);
+    advanceBy(simDelta);
   }
 
   void _applyEvent(ScenarioEvent evt) {
@@ -366,11 +372,15 @@ class TelemetrySimulator {
           .clamp(0.0, 100.0);
     }
 
+    // ── Load ────────────────────────────────────────────────────────────
+    // Load must be calculated first because it contributes to cycle time.
+    final loadPct = _computeLoad(segment.mode);
+
     // ── Cycle time (causal formula from plan §6) ────────────────────────
     final baseCycle = baseline.medianCycleTimeSec;
     final cycleTime = baseCycle *
         (1 + 0.6 * _groundSoftness) *
-        (1 + 0.3 * (_loadPct / 100.0)) *
+        (1 + 0.3 * (loadPct / 100.0)) *
         (1 + 0.4 * _rain * _groundSoftness) *
         (1 + 0.02 * _slopeDeg) *
         (1 + 0.15 * (_isNight ? 1.0 : 0.0)) *
@@ -381,9 +391,6 @@ class TelemetrySimulator {
     final rollingCycle = _cycleTimeBuffer.isEmpty
         ? cycleTime
         : _cycleTimeBuffer.reduce((a, b) => a + b) / _cycleTimeBuffer.length;
-
-    // ── Load ────────────────────────────────────────────────────────────
-    final loadPct = _computeLoad(segment.mode);
 
     // ── Swing ───────────────────────────────────────────────────────────
     _updateSwing(segment.mode);

@@ -92,7 +92,7 @@ class TelemetryTick {
   /// Current payload as a percentage of max rated capacity.
   final double loadPct;
 
-  /// Safe load limit in tonnes.
+  /// Safe load threshold as a percentage of rated capacity.
   final double safeLoadLimit;
 
   /// Ground slope at the machine (degrees).
