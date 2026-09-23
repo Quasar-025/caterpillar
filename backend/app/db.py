@@ -1,14 +1,24 @@
 from collections.abc import Generator
 
+from sqlalchemy.engine import Engine
 from sqlmodel import Session, SQLModel, create_engine
 
 from app.core.config import get_settings
 from app.models import ChecklistItem, Handover, Shift, Task  # noqa: F401
 
+engine: Engine
 
-settings = get_settings()
-connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
-engine = create_engine(settings.database_url, connect_args=connect_args)
+
+def configure_engine(url: str | None = None) -> Engine:
+    global engine
+    settings = get_settings()
+    database_url = url or settings.database_url
+    connect_args = {"check_same_thread": False} if database_url.startswith("sqlite") else {}
+    engine = create_engine(database_url, connect_args=connect_args)
+    return engine
+
+
+configure_engine()
 
 
 def create_db_and_tables() -> None:

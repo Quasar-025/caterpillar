@@ -32,3 +32,8 @@ uvicorn app.main:app --reload
 ```
 
 The backend health check is available at `http://localhost:8000/health`.
+
+Devices keep a local SQLite copy of tasks, checklists, shifts, and handovers.
+Offline writes go into an outbox. When the network is up, the app pushes that
+outbox to `POST /sync/push` and then pulls newer cloud rows from `GET /sync/pull`.
+Conflicts use last-write-wins on `updated_at`.
