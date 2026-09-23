@@ -155,6 +155,13 @@ class AlertManager {
   /// Minimum gap between Attention/Action alerts of the same category.
   static const _rateLimitDuration = Duration(seconds: 30);
 
+  /// Tracks cumulative alert counts by level over the session.
+  final Map<AlertLevel, int> _alertCounts = {
+    AlertLevel.attention: 0,
+    AlertLevel.action: 0,
+    AlertLevel.critical: 0,
+  };
+
   /// The latest workload message.
   String? _workloadMessage;
 
@@ -253,12 +260,16 @@ class AlertManager {
     _hysteresis.clear();
     _pendingCritical = null;
     _workloadMessage = null;
+    _alertCounts.updateAll((key, value) => 0);
     _emit();
   }
 
   void dispose() {
     _controller.close();
   }
+
+  /// Cumulative counts of alerts raised during this session.
+  Map<AlertLevel, int> get alertCounts => Map.unmodifiable(_alertCounts);
 
   // ── Internals ─────────────────────────────────────────────────────────
 
@@ -280,6 +291,14 @@ class AlertManager {
       alertEmittedAt: t2,
       requiresAck: state.level == AlertLevel.critical,
     );
+
+    final existing = _activeAlerts[key];
+    if (existing == null || state.level.rank > existing.level.rank) {
+      // New alert or escalated level.
+      if (state.level != AlertLevel.info) {
+        _alertCounts[state.level] = (_alertCounts[state.level] ?? 0) + 1;
+      }
+    }
 
     _activeAlerts[key] = alert;
 

@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 
 import '../features/checklist/checklist_provider.dart';
 import '../features/checklist/checklist_screen.dart';
+import '../features/handover/handover_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/learn/learn_screen.dart';
 import '../features/safety/safety_screen.dart';
+import '../features/settings/settings_screen.dart';
 import '../safety/alert_overlay.dart';
 import '../safety/alert_providers.dart';
 import '../safety/latency_debug_overlay.dart';
@@ -46,7 +48,19 @@ final appRouter = GoRouter(
             ),
           ],
         ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/settings',
+              builder: (context, state) => const SettingsScreen(),
+            ),
+          ],
+        ),
       ],
+    ),
+    GoRoute(
+      path: '/handover',
+      builder: (context, state) => const HandoverScreen(),
     ),
   ],
 );
@@ -68,18 +82,18 @@ class _Shell extends ConsumerWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final useRail = constraints.maxWidth >= 900;
-        final body = Stack(
-          children: [
-            navigationShell,
-            const AlertOverlay(),
-            if (showLatency)
-              const Positioned(
-                left: 8,
-                bottom: 8,
-                child: LatencyDebugOverlay(),
-              ),
-            if (kDebugMode)
-              Positioned(
+        final body = AlertOverlay(
+          child: Stack(
+            children: [
+              navigationShell,
+              if (showLatency)
+                const Positioned(
+                  left: 8,
+                  bottom: 8,
+                  child: LatencyDebugOverlay(),
+                ),
+              if (kDebugMode)
+                Positioned(
                 right: 12,
                 bottom: 12,
                 child: FloatingActionButton.small(
@@ -95,7 +109,8 @@ class _Shell extends ConsumerWidget {
                   child: const Icon(Icons.speed, size: 20),
                 ),
               ),
-          ],
+            ],
+          ),
         );
 
         if (useRail) {
@@ -121,6 +136,10 @@ class _Shell extends ConsumerWidget {
                     NavigationRailDestination(
                       icon: Icon(Icons.school_rounded),
                       label: Text('Learn'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.settings_rounded),
+                      label: Text('Settings'),
                     ),
                   ],
                 ),
@@ -148,6 +167,10 @@ class _Shell extends ConsumerWidget {
               NavigationDestination(
                 icon: Icon(Icons.school_rounded),
                 label: 'Learn',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.settings_rounded),
+                label: 'Settings',
               ),
             ],
           ),

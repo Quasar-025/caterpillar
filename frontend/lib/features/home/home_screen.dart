@@ -27,35 +27,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  bool _loadingDemo = false;
-  String? _demoError;
-
-  Future<void> _toggleDemo() async {
-    final simulator = ref.read(simulatorProvider);
-    switch (simulator.state) {
-      case SimulatorState.running:
-        simulator.pause();
-      case SimulatorState.paused:
-        simulator.resume();
-      case SimulatorState.idle:
-        setState(() {
-          _loadingDemo = true;
-          _demoError = null;
-        });
-        try {
-          final scenario = await ScenarioLoader.load('demo_dig_lift');
-          simulator
-            ..setTimeScale(60)
-            ..start(scenario);
-        } on Object {
-          _demoError = 'Demo data could not be loaded';
-        } finally {
-          if (mounted) setState(() => _loadingDemo = false);
-        }
-    }
-    if (mounted) setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     final tick = ref.watch(telemetryTickProvider).valueOrNull;
@@ -90,16 +61,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               child: Column(
                 children: [
-                  _CommandHeader(
-                    simulatorState: simulator.state,
-                    loading: _loadingDemo,
-                    onDemoPressed: _toggleDemo,
-                  ),
-                  if (_demoError != null) ...[
-                    const SizedBox(height: 8),
-                    _InlineError(message: _demoError!),
-                  ],
-                  const SizedBox(height: 16),
                   Expanded(
                     child: wide
                         ? _WideDashboard(snapshot: snapshot)
@@ -229,109 +190,6 @@ class _HomeSnapshot {
       idleMinutes: tick.idleMin,
       workloadLevel: workload?.level ?? WorkloadLevel.normal,
       live: true,
-    );
-  }
-}
-
-class _CommandHeader extends StatelessWidget {
-  const _CommandHeader({
-    required this.simulatorState,
-    required this.loading,
-    required this.onDemoPressed,
-  });
-
-  final SimulatorState simulatorState;
-  final bool loading;
-  final VoidCallback onDemoPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final action = switch (simulatorState) {
-      SimulatorState.idle => 'Run demo',
-      SimulatorState.running => 'Pause',
-      SimulatorState.paused => 'Resume',
-    };
-    final icon = switch (simulatorState) {
-      SimulatorState.idle => Icons.play_arrow_rounded,
-      SimulatorState.running => Icons.pause_rounded,
-      SimulatorState.paused => Icons.play_arrow_rounded,
-    };
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final compact = constraints.maxWidth < 840;
-        final title = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(width: 6, height: 28, color: CatTheme.yellow),
-                const SizedBox(width: 10),
-                Flexible(
-                  child: Text(
-                    'CAT OPERATOR COPILOT',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge?.copyWith(letterSpacing: 0.4),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'EXC001  ·  EXCAVATOR  ·  SHIFT 06:00–14:00',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ],
-        );
-        final progress = loading
-            ? const SizedBox.square(
-                dimension: 18,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : Icon(icon);
-
-        return Row(
-          children: [
-            Expanded(child: title),
-            const SizedBox(width: 10),
-            if (compact)
-              Tooltip(
-                message: action,
-                child: OutlinedButton(
-                  onPressed: loading ? null : onDemoPressed,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: CatTheme.textPrimary,
-                    minimumSize: const Size(56, 56),
-                    padding: EdgeInsets.zero,
-                    side: const BorderSide(color: CatTheme.divider),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: progress,
-                ),
-              )
-            else
-              OutlinedButton.icon(
-                onPressed: loading ? null : onDemoPressed,
-                icon: progress,
-                label: Text(action),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: CatTheme.textPrimary,
-                  minimumSize: const Size(128, 56),
-                  side: const BorderSide(color: CatTheme.divider),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-          ],
-        );
-      },
     );
   }
 }
@@ -956,7 +814,7 @@ class _HandoverHint extends StatelessWidget {
       color: CatTheme.black,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
-        onTap: () => context.push('/checklist'),
+        onTap: () => context.push('/handover'),
         borderRadius: BorderRadius.circular(8),
         child: const Padding(
           padding: EdgeInsets.all(12),
@@ -970,7 +828,7 @@ class _HandoverHint extends StatelessWidget {
               SizedBox(width: 9),
               Expanded(
                 child: Text(
-                  'Pre-shift inspection complete · review',
+                  'End Shift / Generate Handover',
                   style: TextStyle(
                     color: CatTheme.textMuted,
                     fontSize: 12,

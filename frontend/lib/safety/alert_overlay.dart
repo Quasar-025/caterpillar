@@ -15,7 +15,9 @@ import 'latency_probe.dart';
 /// never removed from the tree. It toggles its own visibility based on the
 /// current [AlertManagerState].
 class AlertOverlay extends ConsumerStatefulWidget {
-  const AlertOverlay({super.key});
+  const AlertOverlay({super.key, required this.child});
+  
+  final Widget child;
 
   @override
   ConsumerState<AlertOverlay> createState() => _AlertOverlayState();
@@ -47,7 +49,7 @@ class _AlertOverlayState extends ConsumerState<AlertOverlay>
   @override
   Widget build(BuildContext context) {
     final alertState = ref.watch(alertStateProvider).valueOrNull;
-    if (alertState == null) return const SizedBox.shrink();
+    if (alertState == null) return widget.child;
 
     // Record t3 on the next frame for latency measurement.
     if (alertState.activeAlerts.isNotEmpty) {
@@ -68,6 +70,37 @@ class _AlertOverlayState extends ConsumerState<AlertOverlay>
 
     return Stack(
       children: [
+        // ── Main UI + Non-critical Alerts & Workload ──────────────────
+        Column(
+          children: [
+            if (!alertState.criticalPending)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (alertState.overallLevel != AlertLevel.info)
+                    _AlertBanner(
+                      level: alertState.overallLevel,
+                      alerts: alertState.activeAlerts,
+                    ),
+                  if (alertState.workloadMessage != null)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: alertState.overallLevel != AlertLevel.info
+                            ? 8
+                            : MediaQuery.paddingOf(context).top + 8,
+                        right: 8,
+                        left: 8,
+                        bottom: 8,
+                      ),
+                      child: _WorkloadChip(message: alertState.workloadMessage!),
+                    ),
+                ],
+              ),
+            Expanded(child: widget.child),
+          ],
+        ),
+        
         // ── Full-screen Critical overlay ─────────────────────────────────
         if (alertState.criticalPending)
           _CriticalOverlay(
@@ -79,26 +112,6 @@ class _AlertOverlayState extends ConsumerState<AlertOverlay>
             onAcknowledge: () {
               ref.read(alertManagerProvider).acknowledgeCritical();
             },
-          ),
-
-        // ── Alert banner (non-critical) ─────────────────────────────────
-        if (!alertState.criticalPending && alertState.overallLevel != AlertLevel.info)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: _AlertBanner(
-              level: alertState.overallLevel,
-              alerts: alertState.activeAlerts,
-            ),
-          ),
-
-        // ── Workload chip ───────────────────────────────────────────────
-        if (alertState.workloadMessage != null && !alertState.criticalPending)
-          Positioned(
-            top: alertState.overallLevel != AlertLevel.info ? 80 : 8,
-            right: 8,
-            child: _WorkloadChip(message: alertState.workloadMessage!),
           ),
       ],
     );
@@ -328,16 +341,17 @@ class _WorkloadChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: CatTheme.attention.withValues(alpha: 0.9),
+        color: CatTheme.attention.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         message,
         style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-          fontSize: 12,
+          color: CatTheme.black,
+          fontWeight: FontWeight.w800,
+          fontSize: 13,
         ),
+        textAlign: TextAlign.right,
       ),
     );
   }
