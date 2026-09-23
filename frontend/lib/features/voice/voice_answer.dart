@@ -22,6 +22,22 @@ class VoiceContext {
   final String safetyAction;
   final List<String> safetyReasons;
   final bool hasCriticalAlert;
+
+  Map<String, Object?> factsFor(VoiceIntent? intent) {
+    return switch (intent) {
+      VoiceIntent.currentEta => {'eta_remaining_min': etaMinutes},
+      VoiceIntent.nextTask => {'next_task': nextTask},
+      VoiceIntent.etaChange => {'eta_explanation': etaExplanation},
+      VoiceIntent.fuelRemaining => {'fuel_remaining_pct': fuelPercent},
+      VoiceIntent.scheduleRecovery => {'schedule_summary': scheduleSummary},
+      VoiceIntent.safetyStatus => {
+        'risk_level': riskLevel,
+        'action': safetyAction,
+        'reasons': safetyReasons,
+      },
+      null => const {},
+    };
+  }
 }
 
 class VoiceAnswer {

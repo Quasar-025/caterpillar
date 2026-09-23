@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/core/theme.dart';
 import 'package:frontend/features/voice/voice_answer.dart';
 import 'package:frontend/features/voice/voice_panel.dart';
+import 'package:frontend/features/voice/voice_phrase_service.dart';
 import 'package:frontend/features/voice/voice_providers.dart';
 import 'package:frontend/features/voice/voice_services.dart';
 
@@ -33,6 +34,7 @@ void main() {
         overrides: [
           speechRecognitionServiceProvider.overrideWithValue(_NoMicSpeech()),
           textToSpeechServiceProvider.overrideWithValue(_SilentTts()),
+          voicePhrasingServiceProvider.overrideWithValue(_FallbackPhrasing()),
           voiceContextProvider.overrideWithValue(voiceContext),
         ],
         child: MaterialApp(
@@ -67,6 +69,7 @@ void main() {
         overrides: [
           speechRecognitionServiceProvider.overrideWithValue(_NoMicSpeech()),
           textToSpeechServiceProvider.overrideWithValue(_SilentTts()),
+          voicePhrasingServiceProvider.overrideWithValue(_FallbackPhrasing()),
           voiceContextProvider.overrideWithValue(voiceContext),
         ],
         child: MaterialApp(
@@ -115,4 +118,18 @@ class _SilentTts implements TextToSpeechService {
 
   @override
   Future<void> stop() async {}
+}
+
+class _FallbackPhrasing implements VoicePhrasingService {
+  @override
+  Future<String> phrase({
+    required String intent,
+    required Map<String, Object?> facts,
+    required String fallback,
+  }) async {
+    return fallback;
+  }
+
+  @override
+  void dispose() {}
 }

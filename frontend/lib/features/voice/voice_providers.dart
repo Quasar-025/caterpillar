@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/api_config.dart';
 import '../../core/alert_level.dart';
 import '../../data/data_providers.dart';
 import '../../domain/eta_providers.dart';
@@ -10,6 +11,7 @@ import '../../telemetry/machine_mode.dart';
 import '../../telemetry/simulator_providers.dart';
 import 'voice_answer.dart';
 import 'voice_intent.dart';
+import 'voice_phrase_service.dart';
 import 'voice_services.dart';
 
 final speechRecognitionServiceProvider = Provider<SpeechRecognitionService>((
@@ -20,6 +22,12 @@ final speechRecognitionServiceProvider = Provider<SpeechRecognitionService>((
 
 final textToSpeechServiceProvider = Provider<TextToSpeechService>((ref) {
   return DeviceTextToSpeechService();
+});
+
+final voicePhrasingServiceProvider = Provider<VoicePhrasingService>((ref) {
+  final service = BackendVoicePhrasingService(ref.watch(apiBaseUrlProvider));
+  ref.onDispose(service.dispose);
+  return service;
 });
 
 final voiceIntentMatcherProvider = Provider<VoiceIntentMatcher>((ref) {
@@ -92,6 +100,7 @@ final voiceAssistantProvider =
         tts: ref.watch(textToSpeechServiceProvider),
         matcher: ref.watch(voiceIntentMatcherProvider),
         answerBuilder: ref.watch(voiceAnswerBuilderProvider),
+        phrasing: ref.watch(voicePhrasingServiceProvider),
         readContext: () => ref.read(voiceContextProvider),
       );
     });
@@ -147,11 +156,13 @@ class VoiceAssistantController extends StateNotifier<VoiceAssistantState> {
     required TextToSpeechService tts,
     required VoiceIntentMatcher matcher,
     required VoiceAnswerBuilder answerBuilder,
+    required VoicePhrasingService phrasing,
     required VoiceContext Function() readContext,
   }) : _speech = speech,
        _tts = tts,
        _matcher = matcher,
        _answerBuilder = answerBuilder,
+       _phrasing = phrasing,
        _readContext = readContext,
        super(const VoiceAssistantState());
 
@@ -159,6 +170,7 @@ class VoiceAssistantController extends StateNotifier<VoiceAssistantState> {
   final TextToSpeechService _tts;
   final VoiceIntentMatcher _matcher;
   final VoiceAnswerBuilder _answerBuilder;
+  final VoicePhrasingService _phrasing;
   final VoiceContext Function() _readContext;
 
   Future<void> startListening() async {
@@ -250,9 +262,27 @@ class VoiceAssistantController extends StateNotifier<VoiceAssistantState> {
       return;
     }
 
+    var response = answer;
+    if (intent != null && intent != VoiceIntent.safetyStatus) {
+      final phrasedText = await _phrasing.phrase(
+        intent: intent == VoiceIntent.etaChange
+            ? 'eta_explanation'
+            : 'voice_answer',
+        facts: context.factsFor(intent),
+        fallback: answer.displayText,
+      );
+      response = VoiceAnswer(
+        intent: answer.intent,
+        displayText: phrasedText,
+        spokenText: phrasedText.replaceAll('ETA', 'E T A'),
+      );
+      if (!mounted) return;
+      state = state.copyWith(answer: response);
+    }
+
     state = state.copyWith(isSpeaking: true);
     try {
-      await _tts.speak(answer.spokenText);
+      await _tts.speak(response.spokenText);
     } catch (_) {
       if (!mounted) return;
       state = state.copyWith(

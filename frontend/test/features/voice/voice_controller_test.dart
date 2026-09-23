@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/features/voice/voice_answer.dart';
 import 'package:frontend/features/voice/voice_intent.dart';
+import 'package:frontend/features/voice/voice_phrase_service.dart';
 import 'package:frontend/features/voice/voice_providers.dart';
 import 'package:frontend/features/voice/voice_services.dart';
 
@@ -25,6 +26,7 @@ void main() {
       tts: tts,
       matcher: const VoiceIntentMatcher(),
       answerBuilder: const VoiceAnswerBuilder(),
+      phrasing: _FallbackPhrasing(),
       readContext: context,
     );
     addTearDown(controller.dispose);
@@ -45,6 +47,7 @@ void main() {
         tts: tts,
         matcher: const VoiceIntentMatcher(),
         answerBuilder: const VoiceAnswerBuilder(),
+        phrasing: _FallbackPhrasing(),
         readContext: () => context(critical: true),
       );
       addTearDown(controller.dispose);
@@ -64,6 +67,7 @@ void main() {
       tts: _FakeTts(),
       matcher: const VoiceIntentMatcher(),
       answerBuilder: const VoiceAnswerBuilder(),
+      phrasing: _FallbackPhrasing(),
       readContext: context,
     );
     addTearDown(controller.dispose);
@@ -85,6 +89,7 @@ void main() {
       tts: _FakeTts(),
       matcher: const VoiceIntentMatcher(),
       answerBuilder: const VoiceAnswerBuilder(),
+      phrasing: _FallbackPhrasing(),
       readContext: context,
     );
     addTearDown(controller.dispose);
@@ -95,6 +100,29 @@ void main() {
 
     expect(controller.state.answer?.intent, VoiceIntent.nextTask);
     expect(controller.state.answer?.displayText, contains('Pipe lift'));
+  });
+
+  test('facts-only phrasing can replace wording before TTS', () async {
+    final tts = _FakeTts();
+    final controller = VoiceAssistantController(
+      speech: _FakeSpeech(),
+      tts: tts,
+      matcher: const VoiceIntentMatcher(),
+      answerBuilder: const VoiceAnswerBuilder(),
+      phrasing: _FallbackPhrasing(
+        response: 'You have 18 minutes left on the current task.',
+      ),
+      readContext: context,
+    );
+    addTearDown(controller.dispose);
+
+    await controller.ask(VoiceIntent.currentEta);
+
+    expect(
+      controller.state.answer?.displayText,
+      'You have 18 minutes left on the current task.',
+    );
+    expect(tts.spoken.single, contains('18 minutes'));
   });
 }
 
@@ -157,4 +185,22 @@ class _FakeTts implements TextToSpeechService {
   Future<void> stop() async {
     stopCalls++;
   }
+}
+
+class _FallbackPhrasing implements VoicePhrasingService {
+  _FallbackPhrasing({this.response});
+
+  final String? response;
+
+  @override
+  Future<String> phrase({
+    required String intent,
+    required Map<String, Object?> facts,
+    required String fallback,
+  }) async {
+    return response ?? fallback;
+  }
+
+  @override
+  void dispose() {}
 }
