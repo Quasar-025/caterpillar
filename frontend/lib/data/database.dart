@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 
 part 'database.g.dart';
 
@@ -99,8 +98,6 @@ class SyncCursors extends Table {
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
-
-  AppDatabase.memory() : super(NativeDatabase.memory());
 
   @override
   int get schemaVersion => 1;

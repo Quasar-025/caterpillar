@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/checklist/checklist_provider.dart';
 import '../features/checklist/checklist_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/learn/learn_screen.dart';
@@ -57,6 +58,11 @@ class _Shell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final shiftStarted = ref.watch(shiftStartedProvider);
+    if (!shiftStarted) {
+      return const ChecklistScreen();
+    }
+
     final showLatency = ref.watch(latencyOverlayVisibleProvider);
 
     return LayoutBuilder(

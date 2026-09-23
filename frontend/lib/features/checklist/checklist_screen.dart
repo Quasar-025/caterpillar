@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/theme.dart';
 import 'checklist_data.dart';
@@ -141,9 +142,10 @@ class ChecklistScreen extends ConsumerWidget {
         state: state,
         onStart: () {
           ref.read(checklistProvider.notifier).startShift();
-          // Navigate back to home after starting the shift.
-          if (context.mounted) {
-            Navigator.of(context).maybePop();
+          if (!context.mounted) return;
+          final path = GoRouterState.of(context).uri.path;
+          if (path == '/checklist') {
+            context.go('/');
           }
         },
         onCheckAll: () => ref.read(checklistProvider.notifier).checkAll(),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/alert_level.dart';
 import '../../core/theme.dart';
+import '../../domain/eta_live.dart';
+import '../../domain/eta_providers.dart';
+import '../../domain/shift_recovery.dart';
 import '../../safety/risk_state.dart';
 import '../../safety/safety_providers.dart';
 import '../../safety/workload_engine.dart';
@@ -54,8 +58,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final tick = ref.watch(telemetryTickProvider).valueOrNull;
     final risk = ref.watch(riskStateProvider).valueOrNull;
     final workload = ref.watch(workloadStateProvider).valueOrNull;
+    final eta = ref.watch(etaStateProvider).valueOrNull;
+    final recovery = ref.watch(shiftRecoveryProvider);
     final simulator = ref.watch(simulatorProvider);
-    final snapshot = _HomeSnapshot.from(tick, risk, workload);
+    final snapshot = _HomeSnapshot.from(
+      tick,
+      risk,
+      workload,
+      eta,
+      recovery,
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -104,6 +116,9 @@ class _HomeSnapshot {
     required this.zone,
     required this.progress,
     required this.etaMinutes,
+    required this.etaExplanation,
+    required this.paceSummary,
+    required this.paceAhead,
     required this.riskLevel,
     required this.safetyAction,
     required this.workerDistance,
@@ -121,6 +136,9 @@ class _HomeSnapshot {
   final String zone;
   final double progress;
   final int etaMinutes;
+  final String? etaExplanation;
+  final String paceSummary;
+  final bool paceAhead;
   final AlertLevel riskLevel;
   final String safetyAction;
   final double workerDistance;
@@ -136,6 +154,8 @@ class _HomeSnapshot {
     TelemetryTick? tick,
     RiskState? risk,
     WorkloadState? workload,
+    EtaState? eta,
+    ShiftRecoveryState? recovery,
   ) {
     if (tick == null) {
       return const _HomeSnapshot(
@@ -144,6 +164,9 @@ class _HomeSnapshot {
         zone: 'Zone B · East cut',
         progress: 71,
         etaMinutes: 24,
+        etaExplanation: null,
+        paceSummary: 'ON PACE WITH SHIFT BASELINE',
+        paceAhead: true,
         riskLevel: AlertLevel.info,
         safetyAction: 'No immediate hazards',
         workerDistance: 14,
@@ -163,6 +186,10 @@ class _HomeSnapshot {
       MachineMode.load => 'Truck loading',
       MachineMode.grade => 'Final grading',
     };
+    final previewEta = ((100 - tick.progressPct) * 0.34).clamp(3, 45).round();
+    final liveEta = eta == null || eta.etaRemainingMin <= 0
+        ? previewEta
+        : eta.etaRemainingMin.clamp(1, 180).round();
     return _HomeSnapshot(
       mode: tick.mode,
       taskName: taskName,
@@ -170,7 +197,11 @@ class _HomeSnapshot {
           ? 'Zone B · Lift corridor'
           : 'Zone B · East cut',
       progress: tick.progressPct,
-      etaMinutes: ((100 - tick.progressPct) * 0.34).clamp(3, 45).round(),
+      etaMinutes: liveEta,
+      etaExplanation: eta?.explanation,
+      paceSummary: recovery?.summary.toUpperCase() ??
+          'ON PACE WITH SHIFT BASELINE',
+      paceAhead: recovery?.isAhead ?? true,
       riskLevel: risk?.level ?? AlertLevel.info,
       safetyAction: risk?.primaryHazard == null
           ? 'No immediate hazards'
@@ -555,20 +586,28 @@ class _CurrentTask extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          const Row(
+          Row(
             children: [
-              Icon(Icons.trending_flat_rounded, color: CatTheme.safe, size: 20),
-              SizedBox(width: 7),
+              Icon(
+                snapshot.paceAhead
+                    ? Icons.trending_flat_rounded
+                    : Icons.trending_up_rounded,
+                color: snapshot.paceAhead ? CatTheme.safe : CatTheme.attention,
+                size: 20,
+              ),
+              const SizedBox(width: 7),
               Expanded(
                 child: Text(
-                  'ON PACE WITH SHIFT BASELINE',
-                  maxLines: 1,
+                  snapshot.etaExplanation ?? snapshot.paceSummary,
+                  maxLines: compact ? 1 : 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: CatTheme.safe,
+                    color: snapshot.paceAhead
+                        ? CatTheme.safe
+                        : CatTheme.attention,
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
+                    letterSpacing: 0.3,
                   ),
                 ),
               ),
@@ -1012,32 +1051,35 @@ class _HandoverHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: CatTheme.black,
+    return Material(
+      color: CatTheme.black,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        onTap: () => context.push('/checklist'),
         borderRadius: BorderRadius.circular(8),
-      ),
-      child: const Row(
-        children: [
-          Icon(
-            Icons.assignment_turned_in_outlined,
-            color: CatTheme.yellow,
-            size: 20,
-          ),
-          SizedBox(width: 9),
-          Expanded(
-            child: Text(
-              'Handover draft updates as you work',
-              style: TextStyle(
-                color: CatTheme.textMuted,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+        child: const Padding(
+          padding: EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Icon(
+                Icons.assignment_turned_in_outlined,
+                color: CatTheme.yellow,
+                size: 20,
               ),
-            ),
+              SizedBox(width: 9),
+              Expanded(
+                child: Text(
+                  'Pre-shift inspection complete · review',
+                  style: TextStyle(
+                    color: CatTheme.textMuted,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

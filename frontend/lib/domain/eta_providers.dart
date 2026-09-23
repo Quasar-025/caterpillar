@@ -4,16 +4,13 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
+import '../core/api_config.dart';
 import '../telemetry/simulator_providers.dart';
 import '../telemetry/tick.dart';
 import 'eta_live.dart';
 import 'shift_recovery.dart';
 
 // ── Backend config ──────────────────────────────────────────────────────────
-
-/// Base URL for the backend API.  Defaults to localhost for dev.
-/// Override via the provider if using ngrok or Render.
-final etaBaseUrlProvider = Provider<String>((_) => 'http://10.0.2.2:8000');
 
 // ── ETA service (backend HTTP calls) ────────────────────────────────────────
 
@@ -89,7 +86,7 @@ class EtaPrediction {
 // ── Providers ───────────────────────────────────────────────────────────────
 
 final etaServiceProvider = Provider<EtaService>((ref) {
-  final baseUrl = ref.watch(etaBaseUrlProvider);
+  final baseUrl = ref.watch(apiBaseUrlProvider);
   final service = EtaService(baseUrl);
   ref.onDispose(service.dispose);
   return service;

@@ -12,9 +12,19 @@ engine: Engine
 def configure_engine(url: str | None = None) -> Engine:
     global engine
     settings = get_settings()
-    database_url = url or settings.database_url
+    database_url = url or settings.sqlalchemy_database_url
     connect_args = {"check_same_thread": False} if database_url.startswith("sqlite") else {}
-    engine = create_engine(database_url, connect_args=connect_args)
+    engine_options = {
+        "connect_args": connect_args,
+        "pool_pre_ping": True,
+    }
+    if not database_url.startswith("sqlite"):
+        engine_options.update(
+            pool_size=5,
+            max_overflow=10,
+            pool_recycle=300,
+        )
+    engine = create_engine(database_url, **engine_options)
     return engine
 
 

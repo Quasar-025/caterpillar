@@ -41,6 +41,28 @@ class SyncEngine {
     );
   }
 
+  Future<void> saveShift(Shift row) async {
+    await db.into(db.shifts).insertOnConflictUpdate(row);
+    await enqueue(
+      entity: 'shift',
+      recordId: row.id,
+      op: row.deletedAt == null ? 'upsert' : 'delete',
+      updatedAt: row.updatedAt,
+      payload: shiftToPayload(row),
+    );
+  }
+
+  Future<void> saveChecklistItem(ChecklistItem row) async {
+    await db.into(db.checklistItems).insertOnConflictUpdate(row);
+    await enqueue(
+      entity: 'checklist_item',
+      recordId: row.id,
+      op: row.deletedAt == null ? 'upsert' : 'delete',
+      updatedAt: row.updatedAt,
+      payload: checklistToPayload(row),
+    );
+  }
+
   Future<void> run() async {
     final pending = await db.select(db.outboxEntries).get();
     if (pending.isNotEmpty) {

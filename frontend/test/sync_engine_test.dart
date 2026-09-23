@@ -1,3 +1,4 @@
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/data/database.dart';
 import 'package:frontend/data/sync_engine.dart';
@@ -23,6 +24,8 @@ class _MemoryApi implements SyncApi {
     return PullResult(cursor: cursor, changes: changes);
   }
 }
+
+AppDatabase _memoryDatabase() => AppDatabase(NativeDatabase.memory());
 
 Task _task({
   required String id,
@@ -55,7 +58,7 @@ Task _task({
 
 void main() {
   test('local writes go through the outbox and up to the cloud', () async {
-    final db = AppDatabase.memory();
+    final db = _memoryDatabase();
     addTearDown(db.close);
     final api = _MemoryApi();
     final sync = SyncEngine(db, api);
@@ -67,8 +70,47 @@ void main() {
     expect(await sync.db.select(sync.db.outboxEntries).get(), isEmpty);
   });
 
+  test('checklist and shift start sync through the same outbox', () async {
+    final db = _memoryDatabase();
+    addTearDown(db.close);
+    final api = _MemoryApi();
+    final sync = SyncEngine(db, api);
+    final updatedAt = DateTime.parse('2025-05-01T07:55:00Z');
+
+    await sync.saveChecklistItem(
+      ChecklistItem(
+        id: 'SHIFT-1-hard_hat',
+        shiftId: 'SHIFT-1',
+        category: 'safetyGear',
+        label: 'Hard hat worn',
+        checked: true,
+        required: true,
+        updatedAt: updatedAt,
+      ),
+    );
+    await sync.saveShift(
+      Shift(
+        id: 'SHIFT-1',
+        operatorId: 'OP1001',
+        machineId: 'EXC001',
+        scheduledStart: updatedAt,
+        scheduledEnd: updatedAt.add(const Duration(hours: 8)),
+        startedAt: updatedAt,
+        status: 'active',
+        updatedAt: updatedAt,
+      ),
+    );
+    await sync.run();
+
+    expect(
+      api.pushed.map((change) => change.entity),
+      containsAll(['checklist_item', 'shift']),
+    );
+    expect(await db.select(db.outboxEntries).get(), isEmpty);
+  });
+
   test('newer local rows are not overwritten by an older pull', () async {
-    final db = AppDatabase.memory();
+    final db = _memoryDatabase();
     addTearDown(db.close);
     final api = _MemoryApi()
       ..remote = [
@@ -93,7 +135,7 @@ void main() {
   });
 
   test('pull applies a newer cloud task', () async {
-    final db = AppDatabase.memory();
+    final db = _memoryDatabase();
     addTearDown(db.close);
     final newer = _task(id: 'T9', progress: 91, updatedAt: DateTime.parse('2025-05-01T09:00:00'));
     final api = _MemoryApi()

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'checklist_data.dart';
+import 'checklist_sync.dart';
 
 /// Tracks the live state of a single checklist item.
 class ChecklistItemState {
@@ -65,13 +68,33 @@ class ChecklistState {
 /// Initialises from [defaultChecklistItems] and provides toggle + reset.
 /// The "Start shift" button is only enabled when [allRequiredComplete].
 class ChecklistNotifier extends StateNotifier<ChecklistState> {
-  ChecklistNotifier()
-      : super(ChecklistState(
+  ChecklistNotifier({
+    Future<void> Function(ChecklistState)? onChanged,
+    Future<ChecklistState?> Function()? load,
+  })
+      : _onChanged = onChanged,
+        super(ChecklistState(
           items: defaultChecklistItems
               .map((t) => ChecklistItemState(template: t, isChecked: false))
               .toList(),
           shiftStarted: false,
-        ));
+        )) {
+    if (load != null) unawaited(_hydrate(load));
+  }
+
+  final Future<void> Function(ChecklistState)? _onChanged;
+  bool _changedLocally = false;
+
+  Future<void> _hydrate(Future<ChecklistState?> Function() load) async {
+    final stored = await load();
+    if (stored != null && !_changedLocally) state = stored;
+  }
+
+  void _persist() {
+    _changedLocally = true;
+    final callback = _onChanged;
+    if (callback != null) unawaited(callback(state));
+  }
 
   /// Toggle one item on/off.
   void toggle(String key) {
@@ -86,6 +109,7 @@ class ChecklistNotifier extends StateNotifier<ChecklistState> {
       ],
       shiftStarted: state.shiftStarted,
     );
+    _persist();
   }
 
   /// Check all items at once (convenience for demo).
@@ -97,6 +121,7 @@ class ChecklistNotifier extends StateNotifier<ChecklistState> {
       ],
       shiftStarted: state.shiftStarted,
     );
+    _persist();
   }
 
   /// Uncheck all items (reset).
@@ -108,6 +133,7 @@ class ChecklistNotifier extends StateNotifier<ChecklistState> {
       ],
       shiftStarted: state.shiftStarted,
     );
+    _persist();
   }
 
   /// Mark shift as started — locks the checklist.
@@ -117,6 +143,7 @@ class ChecklistNotifier extends StateNotifier<ChecklistState> {
       items: state.items,
       shiftStarted: true,
     );
+    _persist();
   }
 
   /// Full reset (e.g. new shift).
@@ -127,6 +154,7 @@ class ChecklistNotifier extends StateNotifier<ChecklistState> {
           .toList(),
       shiftStarted: false,
     );
+    _persist();
   }
 }
 
@@ -134,7 +162,8 @@ class ChecklistNotifier extends StateNotifier<ChecklistState> {
 
 final checklistProvider =
     StateNotifierProvider<ChecklistNotifier, ChecklistState>((ref) {
-  return ChecklistNotifier();
+  final sync = ref.watch(checklistSyncProvider);
+  return ChecklistNotifier(onChanged: sync.save, load: sync.load);
 });
 
 /// Convenience — whether the shift can start.

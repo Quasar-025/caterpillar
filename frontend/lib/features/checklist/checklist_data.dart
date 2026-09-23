@@ -1,11 +1,11 @@
-/// Categories and predefined checklist items for pre-shift inspection.
-///
-/// Two categories per plan §14:
-///   - Machine walk-around items
-///   - Operator safety gear
-///
-/// Each item has a unique key, a human label, the category it belongs to,
-/// and whether it is required (gates shift start).
+// Categories and predefined checklist items for pre-shift inspection.
+//
+// Two categories per plan §14:
+//   - Machine walk-around items
+//   - Operator safety gear
+//
+// Each item has a unique key, a human label, the category it belongs to,
+// and whether it is required (gates shift start).
 
 enum ChecklistCategory {
   machine,
