@@ -18,6 +18,10 @@ final latencyProbeProvider = Provider<LatencyProbe>((ref) {
   return LatencyProbe();
 });
 
+/// Whether the latency debug overlay is visible.
+/// Toggled by the debug FAB or a long-press gesture.
+final latencyOverlayVisibleProvider = StateProvider<bool>((ref) => false);
+
 /// Wires [RiskState] and [WorkloadState] into the [AlertManager] and
 /// exposes the resulting [AlertManagerState] as a stream.
 ///
