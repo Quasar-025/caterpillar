@@ -331,6 +331,9 @@ class TelemetrySimulator {
       if (v.containsKey('seatbelt')) {
         _seatbelt = v['seatbelt'] == 1 || v['seatbelt'] == true;
       }
+      if (v.containsKey('idle_min')) {
+        _idleMin = (v['idle_min'] as num).toDouble();
+      }
     }
 
     if (evt.isWorkerPath) {

@@ -104,7 +104,7 @@ class ScenarioEvent {
 
   /// Key-value overrides applied to the simulator state.
   /// Keys: `rain`, `ground_softness`, `visibility`, `is_night`,
-  /// `slope_deg`, `seatbelt`, etc.
+  /// `slope_deg`, `seatbelt`, `idle_min`, etc.
   final Map<String, dynamic>? setValues;
 
   /// Named worker-approach script, e.g. `"approach_swing_zone"`.

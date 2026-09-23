@@ -7,6 +7,7 @@
     {"t": "10:20", "mode": "DIG",  "task": "T3"}
   ],
   "events": [
+    {"t": "08:05", "set": {"idle_min": 18}},
     {"t": "08:30", "set": {"rain": 1, "ground_softness": 0.5}},
     {"t": "09:10", "set": {"ground_softness": 0.7}},
     {"t": "09:55", "worker_path": "approach_swing_zone"},

@@ -7,6 +7,8 @@ import '../../core/theme.dart';
 import '../../domain/eta_live.dart';
 import '../../domain/eta_providers.dart';
 import '../../domain/shift_recovery.dart';
+import '../../domain/unusual_behaviour.dart';
+import '../../domain/unusual_providers.dart';
 import '../../safety/risk_state.dart';
 import '../../safety/safety_providers.dart';
 import '../../safety/workload_engine.dart';
@@ -60,6 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final workload = ref.watch(workloadStateProvider).valueOrNull;
     final eta = ref.watch(etaStateProvider).valueOrNull;
     final recovery = ref.watch(shiftRecoveryProvider);
+    final insights =
+        ref.watch(unusualInsightsProvider).valueOrNull ?? const [];
     final simulator = ref.watch(simulatorProvider);
     final snapshot = _HomeSnapshot.from(
       tick,
@@ -67,6 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       workload,
       eta,
       recovery,
+      insights.isEmpty ? null : insights.first,
     );
 
     return Scaffold(
@@ -119,6 +124,7 @@ class _HomeSnapshot {
     required this.etaExplanation,
     required this.paceSummary,
     required this.paceAhead,
+    required this.latestInsight,
     required this.riskLevel,
     required this.safetyAction,
     required this.workerDistance,
@@ -139,6 +145,7 @@ class _HomeSnapshot {
   final String? etaExplanation;
   final String paceSummary;
   final bool paceAhead;
+  final BehaviourInsight? latestInsight;
   final AlertLevel riskLevel;
   final String safetyAction;
   final double workerDistance;
@@ -156,6 +163,7 @@ class _HomeSnapshot {
     WorkloadState? workload,
     EtaState? eta,
     ShiftRecoveryState? recovery,
+    BehaviourInsight? latestInsight,
   ) {
     if (tick == null) {
       return const _HomeSnapshot(
@@ -167,6 +175,7 @@ class _HomeSnapshot {
         etaExplanation: null,
         paceSummary: 'ON PACE WITH SHIFT BASELINE',
         paceAhead: true,
+        latestInsight: null,
         riskLevel: AlertLevel.info,
         safetyAction: 'No immediate hazards',
         workerDistance: 14,
@@ -202,6 +211,7 @@ class _HomeSnapshot {
       paceSummary: recovery?.summary.toUpperCase() ??
           'ON PACE WITH SHIFT BASELINE',
       paceAhead: recovery?.isAhead ?? true,
+      latestInsight: latestInsight,
       riskLevel: risk?.level ?? AlertLevel.info,
       safetyAction: risk?.primaryHazard == null
           ? 'No immediate hazards'
@@ -764,6 +774,10 @@ class _ShiftRail extends StatelessWidget {
           const _TaskRow(time: '11:20', title: 'Pipe lift', status: '45 min'),
           const _TaskRow(time: '12:15', title: 'Final grade', status: '35 min'),
           const SizedBox(height: 20),
+          if (snapshot.latestInsight != null) ...[
+            _InsightHint(insight: snapshot.latestInsight!),
+            const SizedBox(height: 10),
+          ],
           const _HandoverHint(),
         ],
       ),
@@ -1041,6 +1055,66 @@ class _TaskRow extends StatelessWidget {
           ),
           Text(status, style: Theme.of(context).textTheme.bodyMedium),
         ],
+      ),
+    );
+  }
+}
+
+class _InsightHint extends StatelessWidget {
+  const _InsightHint({required this.insight});
+
+  final BehaviourInsight insight;
+
+  @override
+  Widget build(BuildContext context) {
+    final action = insight.priority == InsightPriority.action;
+    final color = action ? CatTheme.action : CatTheme.yellow;
+    return Material(
+      color: color.withValues(alpha: 0.1),
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        onTap: () => context.go('/learn'),
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Icon(
+                action ? Icons.warning_rounded : Icons.lightbulb_rounded,
+                color: color,
+                size: 20,
+              ),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      insight.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: CatTheme.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    Text(
+                      insight.recommendedAction,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: CatTheme.textMuted,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: color, size: 18),
+            ],
+          ),
+        ),
       ),
     );
   }
