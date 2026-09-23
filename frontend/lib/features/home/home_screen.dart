@@ -16,6 +16,7 @@ import '../../telemetry/machine_mode.dart';
 import '../../telemetry/simulator_providers.dart';
 import '../../telemetry/tick.dart';
 import '../task_ui/task_ui_coordinator.dart';
+import '../voice/voice_panel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -81,6 +82,7 @@ class _HomeIdentity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 520;
     return Row(
       children: [
         Container(width: 6, height: 40, color: CatTheme.yellow),
@@ -100,39 +102,44 @@ class _HomeIdentity extends StatelessWidget {
               const SizedBox(height: 3),
               Text(
                 '${snapshot.tick?.machineId ?? 'EXC001'} · EXCAVATOR · '
-                '${snapshot.mode.label} MODE',
+                '${snapshot.mode.label} MODE'
+                '${compact ? ' · ${snapshot.live ? 'LIVE' : 'PREVIEW'}' : ''}',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-          decoration: BoxDecoration(
-            color: CatTheme.panel,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: CatTheme.divider),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 7,
-                height: 7,
-                decoration: BoxDecoration(
-                  color: snapshot.live ? CatTheme.safe : CatTheme.textMuted,
-                  shape: BoxShape.circle,
+        const VoiceAssistantButton(),
+        if (!compact) ...[
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+            decoration: BoxDecoration(
+              color: CatTheme.panel,
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: CatTheme.divider),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: BoxDecoration(
+                    color: snapshot.live ? CatTheme.safe : CatTheme.textMuted,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 7),
-              Text(
-                snapshot.live ? 'LIVE' : 'PREVIEW',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: snapshot.live ? CatTheme.safe : CatTheme.textMuted,
+                const SizedBox(width: 7),
+                Text(
+                  snapshot.live ? 'LIVE' : 'PREVIEW',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: snapshot.live ? CatTheme.safe : CatTheme.textMuted,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
