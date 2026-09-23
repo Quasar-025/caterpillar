@@ -1,0 +1,30 @@
+# Flutter and Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+coverage/
+**/android/local.properties
+**/ios/Flutter/ephemeral/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Local state and secrets
+*.db
+*.sqlite
+.env
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local product notes
+Caterpillar_Operator_Copilot_Organized_Ideas_Features.docx
