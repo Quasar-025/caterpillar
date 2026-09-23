@@ -1,10 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/home/home_screen.dart';
 import '../features/learn/learn_screen.dart';
 import '../features/safety/safety_screen.dart';
 import '../safety/alert_overlay.dart';
+import '../safety/alert_providers.dart';
+import '../safety/latency_debug_overlay.dart';
 import 'theme.dart';
 
 final appRouter = GoRouter(
@@ -41,13 +45,15 @@ final appRouter = GoRouter(
   ],
 );
 
-class _Shell extends StatelessWidget {
+class _Shell extends ConsumerWidget {
   const _Shell({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showLatency = ref.watch(latencyOverlayVisibleProvider);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final useRail = constraints.maxWidth >= 900;
@@ -55,6 +61,29 @@ class _Shell extends StatelessWidget {
           children: [
             navigationShell,
             const AlertOverlay(),
+            if (showLatency)
+              const Positioned(
+                left: 8,
+                bottom: 8,
+                child: LatencyDebugOverlay(),
+              ),
+            if (kDebugMode)
+              Positioned(
+                right: 12,
+                bottom: 12,
+                child: FloatingActionButton.small(
+                  heroTag: 'latency_toggle',
+                  tooltip: 'Toggle latency overlay',
+                  backgroundColor: showLatency
+                      ? Colors.greenAccent
+                      : Colors.white24,
+                  onPressed: () {
+                    ref.read(latencyOverlayVisibleProvider.notifier).state =
+                        !showLatency;
+                  },
+                  child: const Icon(Icons.speed, size: 20),
+                ),
+              ),
           ],
         );
 
