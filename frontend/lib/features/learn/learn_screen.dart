@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme.dart';
 import '../../domain/unusual_behaviour.dart';
 import '../../domain/unusual_providers.dart';
+import 'training_catalog.dart';
 
 class LearnScreen extends ConsumerWidget {
   const LearnScreen({super.key});
@@ -12,26 +14,45 @@ class LearnScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final insights =
         ref.watch(unusualInsightsProvider).valueOrNull ?? const [];
+    final modules = recommendedTrainingFor(insights);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('COACHING')),
+      appBar: AppBar(title: const Text('LEARN')),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final columns = constraints.maxWidth >= 900 ? 2 : 1;
+            final wide = constraints.maxWidth >= 900;
+            final columns = wide ? 2 : 1;
             return CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                  sliver: SliverToBoxAdapter(
+                    child: _SectionHeader(
+                      title: 'Cat Operator Training',
+                      subtitle:
+                          'Official Next Gen excavator videos and courses',
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                  sliver: SliverList.separated(
+                    itemCount: modules.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      return _TrainingTile(module: modules[index]);
+                    },
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 12),
                   sliver: SliverToBoxAdapter(
                     child: _Summary(insights: insights),
                   ),
                 ),
                 if (insights.isEmpty)
-                  const SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: _EmptyState(),
-                  )
+                  const SliverToBoxAdapter(child: _EmptyState())
                 else
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
@@ -48,9 +69,123 @@ class LearnScreen extends ConsumerWidget {
                       },
                     ),
                   ),
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title, required this.subtitle});
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(width: 6, height: 42, color: CatTheme.yellow),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.headlineLarge),
+              Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TrainingTile extends StatelessWidget {
+  const _TrainingTile({required this.module});
+
+  final TrainingModule module;
+
+  Future<void> _open() async {
+    await launchUrl(module.url, mode: LaunchMode.externalApplication);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: CatTheme.panel,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: _open,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: CatTheme.yellow.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  module.format == TrainingFormat.video
+                      ? Icons.play_circle_fill_rounded
+                      : Icons.menu_book_rounded,
+                  color: CatTheme.yellow,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(
+                          module.formatLabel,
+                          style: const TextStyle(
+                            color: CatTheme.yellow,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.7,
+                          ),
+                        ),
+                        const Text(
+                          'CAT OPERATOR TRAINING',
+                          style: TextStyle(
+                            color: CatTheme.textMuted,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      module.title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      module.summary,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.open_in_new_rounded, color: CatTheme.textMuted),
+            ],
+          ),
         ),
       ),
     );
@@ -64,8 +199,9 @@ class _Summary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actionCount =
-        insights.where((item) => item.priority == InsightPriority.action).length;
+    final actionCount = insights
+        .where((item) => item.priority == InsightPriority.action)
+        .length;
     return Row(
       children: [
         Container(width: 6, height: 42, color: CatTheme.yellow),
@@ -204,27 +340,33 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: CatTheme.panel,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: CatTheme.divider),
+        ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
               Icons.verified_rounded,
               color: CatTheme.safe,
-              size: 56,
+              size: 36,
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 10),
             Text(
               'No unusual patterns detected',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Text(
-              'Recommendations appear here as live telemetry moves outside '
-              'the operator and task baseline.',
+              'Start with the Cat Operator Training videos above. '
+              'Live recommendations appear here when telemetry leaves baseline.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
