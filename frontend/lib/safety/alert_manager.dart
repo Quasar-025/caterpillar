@@ -119,12 +119,21 @@ class _HysteresisEntry {
 /// - **Critical**: full-screen overlay, tone, vibration. Must be acked;
 ///   cannot be muted.
 class AlertManager {
-  AlertManager();
+  AlertManager({
+    DateTime Function()? clock,
+    void Function(AlertLevel level)? onCue,
+  }) : _clock = clock ?? DateTime.now,
+       _onCue = onCue;
+
+  final DateTime Function() _clock;
+  final void Function(AlertLevel level)? _onCue;
 
   final _controller = StreamController<AlertManagerState>.broadcast();
 
   /// Subscribe for state updates. The overlay widget listens here.
   Stream<AlertManagerState> get stream => _controller.stream;
+
+  AlertManagerState get snapshot => _currentState();
 
   // ── Internal state ──────────────────────────────────────────────────────
 
@@ -153,11 +162,10 @@ class AlertManager {
 
   /// Call on every new [RiskState] from the RiskEngine.
   void processRiskState(RiskState state) {
-    final now = DateTime.now();
+    final now = _clock();
 
-    if (state.primaryHazard == null) {
-      // No hazard — start hysteresis timers for all active risk alerts.
-      _startHysteresisAll(now);
+    if (state.primaryHazard == null || state.level == AlertLevel.info) {
+      _startHysteresisFor(_activeAlerts.keys, now);
       _expireHysteresisEntries(now);
       _emit();
       return;
@@ -166,16 +174,21 @@ class AlertManager {
     final key = state.primaryHazard!.name;
     final existing = _activeAlerts[key];
 
+    // Stale hazards that are no longer primary must also cool down.
+    _startHysteresisFor(_activeAlerts.keys.where((other) => other != key), now);
+
     // ── Hysteresis check ────────────────────────────────────────────────
     if (existing != null && state.level.rank < existing.level.rank) {
       // The hazard dropped. Start or continue a hysteresis timer.
       final entry = _hysteresis[key];
       if (entry == null) {
         _hysteresis[key] = _HysteresisEntry(state.level, now);
+        _expireHysteresisEntries(now);
         _emit();
         return; // Keep old level until hysteresis expires.
       }
       if (now.difference(entry.since) < _hysteresisDuration) {
+        _expireHysteresisEntries(now);
         _emit();
         return; // Still within the grace period.
       }
@@ -187,28 +200,28 @@ class AlertManager {
     }
 
     // ── Rate limit (Attention / Action only) ────────────────────────────
-    if (state.level == AlertLevel.attention || state.level == AlertLevel.action) {
+    var fireHaptics = true;
+    if (state.level == AlertLevel.attention ||
+        state.level == AlertLevel.action) {
       if (existing == null || state.level.rank > existing.level.rank) {
-        // New or escalation — check rate limit.
         final last = _lastAlertTime[key];
         if (last != null && now.difference(last) < _rateLimitDuration) {
-          // Silently update internal state but don't re-fire audio/haptics.
-          _updateAlert(key, state, now, fireHaptics: false);
-          _emit();
-          return;
+          fireHaptics = false;
+        } else {
+          _lastAlertTime[key] = now;
         }
-        _lastAlertTime[key] = now;
+      } else {
+        fireHaptics = false;
       }
     }
 
-    // ── Create / update the alert ───────────────────────────────────────
-    final isCritical = state.level == AlertLevel.critical;
-    _updateAlert(key, state, now, fireHaptics: true);
+    _updateAlert(key, state, now, fireHaptics: fireHaptics);
 
-    if (isCritical) {
+    if (state.level == AlertLevel.critical) {
       _pendingCritical = _activeAlerts[key];
     }
 
+    _expireHysteresisEntries(now);
     _emit();
   }
 
@@ -255,7 +268,7 @@ class AlertManager {
     DateTime now, {
     required bool fireHaptics,
   }) {
-    final t2 = DateTime.now();
+    final t2 = now;
     final alert = ActiveAlert(
       id: key,
       level: state.level,
@@ -282,9 +295,14 @@ class AlertManager {
   /// Action: medium haptic.
   /// Critical: heavy haptic + vibration pattern.
   void _fireHapticsAndAudio(AlertLevel level) {
+    if (level == AlertLevel.info) return;
+    final cue = _onCue;
+    if (cue != null) {
+      cue(level);
+      return;
+    }
     switch (level) {
       case AlertLevel.info:
-        // Info is visual only — no haptics or sound.
         break;
       case AlertLevel.attention:
         HapticFeedback.lightImpact();
@@ -294,18 +312,17 @@ class AlertManager {
         break;
       case AlertLevel.critical:
         HapticFeedback.heavyImpact();
-        // A real implementation would also trigger a preloaded tone here.
-        // For now we use the system vibrate pattern as a stand-in.
         HapticFeedback.vibrate();
         break;
     }
   }
 
-  void _startHysteresisAll(DateTime now) {
-    for (final key in _activeAlerts.keys.toList()) {
-      if (!_hysteresis.containsKey(key)) {
-        _hysteresis[key] = _HysteresisEntry(AlertLevel.info, now);
-      }
+  void _startHysteresisFor(Iterable<String> keys, DateTime now) {
+    for (final key in keys) {
+      _hysteresis.putIfAbsent(
+        key,
+        () => _HysteresisEntry(AlertLevel.info, now),
+      );
     }
   }
 
@@ -337,7 +354,8 @@ class AlertManager {
     return AlertManagerState(
       overallLevel: overallLevel,
       activeAlerts: alerts,
-      criticalPending: _pendingCritical != null && !_pendingCritical!.acknowledged,
+      criticalPending:
+          _pendingCritical != null && !_pendingCritical!.acknowledged,
       workloadMessage: _workloadMessage,
     );
   }
