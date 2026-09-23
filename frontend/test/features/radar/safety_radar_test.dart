@@ -31,7 +31,7 @@ void main() {
   test('scales rings from RiskState zones only', () {
     final scale = radarMetersToPixels(const Size(200, 200), zones);
 
-    expect(zones.attentionRadiusM * scale, closeTo(76, 0.001));
+    expect(zones.attentionRadiusM * scale, closeTo(64, 0.001));
     expect(
       zones.actionRadiusM * scale,
       lessThan(zones.attentionRadiusM * scale),

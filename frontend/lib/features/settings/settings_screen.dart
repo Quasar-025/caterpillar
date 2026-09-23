@@ -66,16 +66,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('SETTINGS'),
         centerTitle: false,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(
+          CatTheme.pagePadding(MediaQuery.sizeOf(context).width),
+        ),
         children: [
           if (_demoError != null) ...[
             Container(
               padding: const EdgeInsets.all(12),
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               child: Text(
                 _demoError!,
                 style: const TextStyle(color: Colors.redAccent),
@@ -91,7 +93,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: const Text('Use WebSockets to fetch telemetry instead of local generation'),
             trailing: Switch(
               value: ref.watch(useBackendStreamProvider),
-              activeColor: CatTheme.yellow,
+              activeThumbColor: CatTheme.yellow,
               onChanged: (val) {
                 ref.read(useBackendStreamProvider.notifier).state = val;
               },
@@ -117,7 +119,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               style: SegmentedButton.styleFrom(
                 visualDensity: VisualDensity.compact,
                 backgroundColor: Colors.transparent,
-                selectedBackgroundColor: CatTheme.yellow.withOpacity(0.2),
+                selectedBackgroundColor: CatTheme.yellow.withValues(alpha: 0.2),
                 foregroundColor: CatTheme.textMuted,
                 selectedForegroundColor: CatTheme.yellow,
                 side: const BorderSide(color: CatTheme.divider),

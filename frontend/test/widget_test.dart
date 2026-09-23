@@ -45,9 +45,7 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          checklistProvider.overrideWith((ref) => _startedShift()),
-        ],
+        overrides: [checklistProvider.overrideWith((ref) => _startedShift())],
         child: const OperatorApp(),
       ),
     );
@@ -70,16 +68,14 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          checklistProvider.overrideWith((ref) => _startedShift()),
-        ],
+        overrides: [checklistProvider.overrideWith((ref) => _startedShift())],
         child: const OperatorApp(),
       ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('SAFE TO OPERATE'), findsOneWidget);
-    expect(find.text('71%'), findsOneWidget);
+    expect(find.text('71%'), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 }

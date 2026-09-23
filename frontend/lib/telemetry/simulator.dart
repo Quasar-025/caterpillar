@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:math';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -153,7 +154,8 @@ class TelemetrySimulator {
 
   // ── Mutable sim-state that evolves tick to tick ────────────────────────
 
-  double _engineHours = 500.0;
+  // Cumulative machine-hour meter, never operator shift duration.
+  double _engineHours = 1530.2;
   double _fuelUsedL = 0.0;
   int _loadCycles = 0;
   double _idleMin = 0.0;
@@ -223,12 +225,21 @@ class TelemetrySimulator {
             final tick = TelemetryTick.fromJson(json);
             _controller.add(tick);
           } catch (e) {
-            print('Error parsing telemetry JSON: $e');
+            developer.log(
+              'Error parsing telemetry JSON',
+              name: 'telemetry.simulator',
+              error: e,
+            );
           }
         }
       },
-      onError: (e) => print('WebSocket error: $e'),
-      onDone: () => print('WebSocket closed'),
+      onError: (e) => developer.log(
+        'WebSocket error',
+        name: 'telemetry.simulator',
+        error: e,
+      ),
+      onDone: () =>
+          developer.log('WebSocket closed', name: 'telemetry.simulator'),
     );
   }
 
@@ -329,7 +340,7 @@ class TelemetrySimulator {
   }
 
   void _resetSimState() {
-    _engineHours = 500.0 + _rng.nextDouble() * 1500;
+    _engineHours = 1530.2 + _rng.nextDouble() * 4;
     _fuelUsedL = 0;
     _loadCycles = 0;
     _idleMin = 0;

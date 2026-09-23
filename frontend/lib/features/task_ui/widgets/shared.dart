@@ -17,24 +17,51 @@ class TaskPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: CatTheme.panel,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [CatTheme.panelHighlight, CatTheme.panel],
+        ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: CatTheme.divider),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            offset: const Offset(0, 6),
+            blurRadius: 18,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 20, color: CatTheme.yellow),
-              const SizedBox(width: 8),
-              Text(title, style: Theme.of(context).textTheme.titleLarge),
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: CatTheme.yellow.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                child: Icon(icon, size: 17, color: CatTheme.yellow),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                title.toUpperCase(),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: CatTheme.textPrimary,
+                  letterSpacing: 0.7,
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 12),
-          Expanded(child: child),
+          const SizedBox(height: 10),
+          Expanded(
+            child: Align(alignment: Alignment.centerLeft, child: child),
+          ),
         ],
       ),
     );
@@ -57,14 +84,13 @@ class TaskMeasure extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         FittedBox(
           fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
           child: Text(
             value,
             style: TextStyle(
@@ -81,8 +107,7 @@ class TaskMeasure extends StatelessWidget {
           textAlign: TextAlign.left,
           style: Theme.of(context).textTheme.labelMedium,
         ),
-        ],
-      ),
+      ],
     );
   }
 }

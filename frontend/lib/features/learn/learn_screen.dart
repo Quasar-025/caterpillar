@@ -12,8 +12,7 @@ class LearnScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final insights =
-        ref.watch(unusualInsightsProvider).valueOrNull ?? const [];
+    final insights = ref.watch(unusualInsightsProvider).valueOrNull ?? const [];
     final modules = recommendedTrainingFor(insights);
 
     return Scaffold(
@@ -23,10 +22,11 @@ class LearnScreen extends ConsumerWidget {
           builder: (context, constraints) {
             final wide = constraints.maxWidth >= 900;
             final columns = wide ? 2 : 1;
+            final pagePadding = CatTheme.pagePadding(constraints.maxWidth);
             return CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                  padding: EdgeInsets.fromLTRB(pagePadding, 18, pagePadding, 8),
                   sliver: SliverToBoxAdapter(
                     child: _SectionHeader(
                       title: 'Cat Operator Training',
@@ -36,7 +36,7 @@ class LearnScreen extends ConsumerWidget {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                  padding: EdgeInsets.fromLTRB(pagePadding, 0, pagePadding, 8),
                   sliver: SliverList.separated(
                     itemCount: modules.length,
                     separatorBuilder: (_, _) => const SizedBox(height: 12),
@@ -46,16 +46,28 @@ class LearnScreen extends ConsumerWidget {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 12),
+                  padding: EdgeInsets.fromLTRB(
+                    pagePadding,
+                    24,
+                    pagePadding,
+                    12,
+                  ),
                   sliver: SliverToBoxAdapter(
                     child: _Summary(insights: insights),
                   ),
                 ),
                 if (insights.isEmpty)
-                  const SliverToBoxAdapter(child: _EmptyState())
+                  SliverToBoxAdapter(
+                    child: _EmptyState(horizontalPadding: pagePadding),
+                  )
                 else
                   SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
+                    padding: EdgeInsets.fromLTRB(
+                      pagePadding,
+                      0,
+                      pagePadding,
+                      28,
+                    ),
                     sliver: SliverGrid.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: columns,
@@ -218,7 +230,7 @@ class _Summary extends StatelessWidget {
                 insights.isEmpty
                     ? 'Live telemetry is within your normal baseline'
                     : '${insights.length} insight${insights.length == 1 ? '' : 's'} · '
-                        '$actionCount requiring action',
+                          '$actionCount requiring action',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
@@ -336,12 +348,14 @@ class _Detail extends StatelessWidget {
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState();
+  const _EmptyState({required this.horizontalPadding});
+
+  final double horizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+      padding: EdgeInsets.fromLTRB(horizontalPadding, 0, horizontalPadding, 12),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(18),
@@ -352,11 +366,7 @@ class _EmptyState extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Icon(
-              Icons.verified_rounded,
-              color: CatTheme.safe,
-              size: 36,
-            ),
+            const Icon(Icons.verified_rounded, color: CatTheme.safe, size: 36),
             const SizedBox(height: 10),
             Text(
               'No unusual patterns detected',

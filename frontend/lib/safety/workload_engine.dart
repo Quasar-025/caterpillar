@@ -90,13 +90,19 @@ class WorkloadState {
 class WorkloadEngine {
   DateTime? _operatingSince;
   DateTime? _stationarySince;
+  DateTime? _lastTickAt;
 
   WorkloadState evaluate(TelemetryTick tick, {WorkloadBaseline? baseline}) {
     final normal = baseline ?? WorkloadBaseline.forOperator(tick.operatorId);
     _updateContinuousOperation(tick);
-    final operatingTime = _operatingSince == null
+    final rawOperatingTime = _operatingSince == null
         ? Duration.zero
         : tick.timestamp.difference(_operatingSince!);
+    final operatingTime =
+        rawOperatingTime.isNegative ||
+            rawOperatingTime > const Duration(hours: 12)
+        ? Duration.zero
+        : rawOperatingTime;
 
     var score = 0;
     final reasons = <String>[];
@@ -162,9 +168,20 @@ class WorkloadEngine {
   void reset() {
     _operatingSince = null;
     _stationarySince = null;
+    _lastTickAt = null;
   }
 
   void _updateContinuousOperation(TelemetryTick tick) {
+    final previousTick = _lastTickAt;
+    if (previousTick != null) {
+      final gap = tick.timestamp.difference(previousTick);
+      if (gap.isNegative || gap > const Duration(hours: 12)) {
+        _operatingSince = null;
+        _stationarySince = null;
+      }
+    }
+    _lastTickAt = tick.timestamp;
+
     if (tick.isMoving) {
       if (_stationarySince != null &&
           tick.timestamp.difference(_stationarySince!) >=

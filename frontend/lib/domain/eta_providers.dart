@@ -55,12 +55,12 @@ class EtaService {
 
       final json = jsonDecode(response.body) as Map<String, dynamic>;
       return EtaPrediction(
-        predictedDurationMin:
-            (json['predicted_duration_min'] as num).toDouble(),
-        contributions: (json['contributions'] as Map<String, dynamic>)
-            .map((k, v) => MapEntry(k, (v as num).toDouble())),
-        baselineDurationMin:
-            (json['baseline_duration_min'] as num).toDouble(),
+        predictedDurationMin: (json['predicted_duration_min'] as num)
+            .toDouble(),
+        contributions: (json['contributions'] as Map<String, dynamic>).map(
+          (k, v) => MapEntry(k, (v as num).toDouble()),
+        ),
+        baselineDurationMin: (json['baseline_duration_min'] as num).toDouble(),
       );
     } catch (_) {
       // Backend unreachable — fall back to pace-only
@@ -149,8 +149,12 @@ final etaStateProvider = StreamProvider<EtaState>((ref) {
 
     // Planned quantity heuristic: infer from progress and cycles
     // In a real app this would come from the task database
-    final plannedQty = tick.progressPct > 0
-        ? (tick.loadCycles / (tick.progressPct / 100.0)).roundToDouble()
+    final progress = tick.progressPct.clamp(0.0, 100.0) / 100.0;
+    final observedCycles = tick.loadCycles.clamp(1, 500);
+    final plannedQty = progress > 0.01
+        ? (observedCycles / progress)
+              .clamp(observedCycles.toDouble(), 500.0)
+              .toDouble()
         : 100.0;
 
     final state = engine.evaluate(
@@ -225,9 +229,9 @@ final shiftRecoveryProvider = Provider<ShiftRecoveryState?>((ref) {
     baselineCycleSec: baselineCycle,
     rollingCycleSec: tick.rollingCycleTimeSec,
     remainingTasksMin: [
-      eta.etaRemainingMin,  // current task
-      40.0,                 // next task estimate
-      40.0,                 // task after that
+      eta.etaRemainingMin, // current task
+      40.0, // next task estimate
+      40.0, // task after that
     ],
     scheduledShiftEndMin: 120.0, // 2 hours until shift end (demo)
     excessIdleMin: tick.idleMin > 10 ? tick.idleMin - 10 : 0,

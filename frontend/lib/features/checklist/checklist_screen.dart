@@ -23,8 +23,7 @@ class ChecklistScreen extends ConsumerWidget {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final wide = constraints.maxWidth >= 840;
-            final pad = wide ? 32.0 : 18.0;
+            final pad = CatTheme.pagePadding(constraints.maxWidth);
 
             return CustomScrollView(
               slivers: [
@@ -83,8 +82,8 @@ class ChecklistScreen extends ConsumerWidget {
                               TextButton.icon(
                                 onPressed: state.checkedCount > 0
                                     ? () => ref
-                                        .read(checklistProvider.notifier)
-                                        .uncheckAll()
+                                          .read(checklistProvider.notifier)
+                                          .uncheckAll()
                                     : null,
                                 icon: const Icon(Icons.restart_alt, size: 18),
                                 label: const Text('Reset'),
@@ -105,10 +104,7 @@ class ChecklistScreen extends ConsumerWidget {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(pad, 8, pad, 8),
-                      child: _CategoryHeader(
-                        category: cat,
-                        state: state,
-                      ),
+                      child: _CategoryHeader(category: cat, state: state),
                     ),
                   ),
                   SliverPadding(
@@ -191,10 +187,7 @@ class _ProgressBar extends StatelessWidget {
 // ═══════════════════════════════════════════════════════════════════════════
 
 class _CategoryHeader extends StatelessWidget {
-  const _CategoryHeader({
-    required this.category,
-    required this.state,
-  });
+  const _CategoryHeader({required this.category, required this.state});
 
   final ChecklistCategory category;
   final ChecklistState state;
@@ -208,10 +201,7 @@ class _CategoryHeader extends StatelessWidget {
 
     return Row(
       children: [
-        Text(
-          category.icon,
-          style: const TextStyle(fontSize: 20),
-        ),
+        Text(category.icon, style: const TextStyle(fontSize: 20)),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
@@ -264,9 +254,7 @@ class _ChecklistTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Material(
-        color: checked
-            ? CatTheme.safe.withValues(alpha: 0.08)
-            : CatTheme.panel,
+        color: checked ? CatTheme.safe.withValues(alpha: 0.08) : CatTheme.panel,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           onTap: locked ? null : onToggle,
@@ -303,8 +291,7 @@ class _ChecklistTile extends StatelessWidget {
                           : CatTheme.textPrimary,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      decoration:
-                          checked ? TextDecoration.lineThrough : null,
+                      decoration: checked ? TextDecoration.lineThrough : null,
                       decorationColor: CatTheme.textMuted,
                     ),
                   ),
@@ -367,9 +354,7 @@ class _StartShiftBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: CatTheme.panel,
-        border: const Border(
-          top: BorderSide(color: CatTheme.divider),
-        ),
+        border: const Border(top: BorderSide(color: CatTheme.divider)),
       ),
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
       child: SafeArea(
@@ -400,15 +385,13 @@ class _StartShiftBar extends StatelessWidget {
                       : Icons.play_arrow_rounded,
                   size: 24,
                 ),
-                label: Text(
-                  alreadyStarted ? 'Shift Started' : 'Start Shift',
-                ),
+                label: Text(alreadyStarted ? 'Shift Started' : 'Start Shift'),
                 style: FilledButton.styleFrom(
                   minimumSize: const Size(double.infinity, 60),
-                  backgroundColor:
-                      canStart ? CatTheme.safe : CatTheme.panelRaised,
-                  foregroundColor:
-                      canStart ? Colors.white : CatTheme.textMuted,
+                  backgroundColor: canStart
+                      ? CatTheme.safe
+                      : CatTheme.panelRaised,
+                  foregroundColor: canStart ? Colors.white : CatTheme.textMuted,
                   disabledBackgroundColor: CatTheme.panelRaised,
                   disabledForegroundColor: CatTheme.textMuted,
                   textStyle: const TextStyle(

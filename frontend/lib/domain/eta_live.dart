@@ -35,7 +35,9 @@ class EtaLiveEngine {
     required double cycleTimeSec,
   }) {
     _currentTaskId = taskId;
-    _modelPredictionMin = predictedDurationMin;
+    _modelPredictionMin = predictedDurationMin.isFinite
+        ? predictedDurationMin.clamp(1.0, 720.0).toDouble()
+        : null;
     _contributions = Map.of(contributions);
     _startGroundSoftness = groundSoftness;
     _startRain = rain;
@@ -55,13 +57,22 @@ class EtaLiveEngine {
       _currentTaskId = tick.taskId;
     }
 
-    final progress = tick.progressPct / 100.0;
+    final progress =
+        (tick.progressPct.isFinite ? tick.progressPct : 0).clamp(0.0, 100.0) /
+        100.0;
 
     // ── Pace-based remaining ────────────────────────────────────────────
-    final completedCycles = (plannedQuantity * progress).round();
-    final remainingCycles = plannedQuantity - completedCycles;
+    final safeQuantity = (plannedQuantity.isFinite ? plannedQuantity : 1.0)
+        .clamp(1.0, 10000.0)
+        .toDouble();
+    final completedCycles = (safeQuantity * progress).round();
+    final remainingCycles = max(0.0, safeQuantity - completedCycles);
+    final rollingCycle =
+        tick.rollingCycleTimeSec.isFinite && tick.rollingCycleTimeSec > 0
+        ? tick.rollingCycleTimeSec
+        : max(1.0, baselineCycleTimeSec);
     final paceRemaining = remainingCycles > 0
-        ? remainingCycles * tick.rollingCycleTimeSec / 60.0
+        ? remainingCycles * rollingCycle / 60.0
         : 0.0;
 
     // ── Model-based remaining ───────────────────────────────────────────
@@ -82,7 +93,9 @@ class EtaLiveEngine {
       etaRemaining = paceRemaining;
     }
 
-    etaRemaining = max(0.0, etaRemaining);
+    etaRemaining = etaRemaining.isFinite
+        ? etaRemaining.clamp(0.0, 720.0).toDouble()
+        : 0.0;
 
     // ── Deterministic explanation ────────────────────────────────────────
     final explanation = _buildExplanation(
@@ -120,12 +133,15 @@ class EtaLiveEngine {
                   100)
               .roundToDouble();
       if (cycleChangePct.abs() > 5) {
-        reasons.add(_ExplanationEntry(
-          weight: cycleChangePct.abs(),
-          text: 'cycle time ${cycleChangePct > 0 ? 'up' : 'down'} '
-              '${cycleChangePct.abs().toStringAsFixed(0)}% '
-              'over the last 8 cycles',
-        ));
+        reasons.add(
+          _ExplanationEntry(
+            weight: cycleChangePct.abs(),
+            text:
+                'cycle time ${cycleChangePct > 0 ? 'up' : 'down'} '
+                '${cycleChangePct.abs().toStringAsFixed(0)}% '
+                'over the last 8 cycles',
+          ),
+        );
       }
     }
 
@@ -133,10 +149,12 @@ class EtaLiveEngine {
     if (_startGroundSoftness != null) {
       final delta = tick.groundSoftness - _startGroundSoftness!;
       if (delta.abs() > 0.1) {
-        reasons.add(_ExplanationEntry(
-          weight: delta.abs() * 50,
-          text: 'ground softness ${delta > 0 ? 'increased' : 'decreased'}',
-        ));
+        reasons.add(
+          _ExplanationEntry(
+            weight: delta.abs() * 50,
+            text: 'ground softness ${delta > 0 ? 'increased' : 'decreased'}',
+          ),
+        );
       }
     }
 
@@ -144,10 +162,12 @@ class EtaLiveEngine {
     if (_startRain != null) {
       final delta = tick.rain - _startRain!;
       if (delta.abs() > 0.3) {
-        reasons.add(_ExplanationEntry(
-          weight: delta.abs() * 40,
-          text: delta > 0 ? 'rain started' : 'rain stopped',
-        ));
+        reasons.add(
+          _ExplanationEntry(
+            weight: delta.abs() * 40,
+            text: delta > 0 ? 'rain started' : 'rain stopped',
+          ),
+        );
       }
     }
 
@@ -156,13 +176,16 @@ class EtaLiveEngine {
     reasons.sort((a, b) => b.weight.compareTo(a.weight));
 
     // Build the explanation string
-    final delta = modelRemaining != null
-        ? (etaRemaining - modelRemaining).abs()
-        : etaRemaining;
-    final sign = etaRemaining > (modelRemaining ?? 0) ? '+' : '-';
+    final signedDelta = modelRemaining != null
+        ? etaRemaining - modelRemaining
+        : 0.0;
+    final delta = signedDelta.abs();
     final topReasons = reasons.take(2).map((r) => r.text).join('; ');
-
-    return 'ETA $sign${delta.toStringAsFixed(0)} min: $topReasons';
+    if (modelRemaining == null || delta < 0.5) {
+      return 'ETA stable: $topReasons';
+    }
+    final change = signedDelta > 0 ? 'increased' : 'improved';
+    return 'ETA $change by ${delta.toStringAsFixed(0)} min: $topReasons';
   }
 
   void reset() {

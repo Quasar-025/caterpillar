@@ -5,6 +5,7 @@ class CatTheme {
   static const Color black = Color(0xFF090A0A);
   static const Color panel = Color(0xFF141617);
   static const Color panelRaised = Color(0xFF1C1F20);
+  static const Color panelHighlight = Color(0xFF242829);
   static const Color divider = Color(0xFF343839);
   static const Color textPrimary = Color(0xFFF7F6F2);
   static const Color textMuted = Color(0xFFA8AEAE);
@@ -12,6 +13,9 @@ class CatTheme {
   static const Color action = Color(0xFFF47B20);
   static const Color critical = Color(0xFFD82920);
   static const Color safe = Color(0xFF48A868);
+  static const double panelRadius = 12;
+
+  static double pagePadding(double width) => width >= 900 ? 28 : 18;
 
   static ThemeData dark() {
     const scheme = ColorScheme.dark(
@@ -89,7 +93,14 @@ class CatTheme {
         foregroundColor: textPrimary,
         elevation: 0,
         centerTitle: false,
+        toolbarHeight: 64,
         surfaceTintColor: Colors.transparent,
+        titleTextStyle: TextStyle(
+          color: textPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.7,
+        ),
       ),
       navigationBarTheme: const NavigationBarThemeData(
         backgroundColor: panel,
@@ -130,7 +141,8 @@ class CatTheme {
       ),
       cardTheme: const CardThemeData(
         color: panel,
-        elevation: 0,
+        elevation: 2,
+        shadowColor: Color(0x66000000),
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: divider),

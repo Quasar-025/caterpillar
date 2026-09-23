@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/alert_level.dart';
 import '../../core/theme.dart';
-import '../../domain/unusual_behaviour.dart';
 import 'handover_providers.dart';
 import 'handover_report.dart';
 
@@ -17,7 +16,7 @@ class HandoverScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shift Handover'),
+        title: const Text('SHIFT HANDOVER'),
         backgroundColor: CatTheme.panel,
         leading: IconButton(
           icon: const Icon(Icons.close),
@@ -47,7 +46,9 @@ class _HandoverBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(
+        CatTheme.pagePadding(MediaQuery.sizeOf(context).width),
+      ),
       children: [
         Text(
           'End of Shift Report',

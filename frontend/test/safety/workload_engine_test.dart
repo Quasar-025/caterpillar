@@ -108,6 +108,22 @@ void main() {
     expect(resumed.level, WorkloadLevel.normal);
   });
 
+  test('a stale telemetry timestamp cannot create impossible shift hours', () {
+    final engine = WorkloadEngine();
+    final start = DateTime.parse('2025-05-01T08:00:00Z');
+    engine.evaluate(workloadTick(timestamp: start));
+
+    final restarted = engine.evaluate(
+      workloadTick(timestamp: start.add(const Duration(days: 30))),
+    );
+
+    expect(restarted.continuousOperatingTime, Duration.zero);
+    expect(
+      restarted.reasons.join(' '),
+      isNot(contains('Operating continuously')),
+    );
+  });
+
   test('operator-specific baseline avoids a one-size-fits-all score', () {
     final at = DateTime.parse('2025-05-01T08:00:00Z');
     final tick = workloadTick(timestamp: at, corrections: 3.5);

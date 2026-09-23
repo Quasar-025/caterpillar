@@ -13,8 +13,6 @@ import '../../safety/risk_state.dart';
 import '../../safety/safety_providers.dart';
 import '../../safety/workload_engine.dart';
 import '../../telemetry/machine_mode.dart';
-import '../../telemetry/scenario_loader.dart';
-import '../../telemetry/simulator.dart';
 import '../../telemetry/simulator_providers.dart';
 import '../../telemetry/tick.dart';
 import '../task_ui/task_ui_coordinator.dart';
@@ -34,9 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final workload = ref.watch(workloadStateProvider).valueOrNull;
     final eta = ref.watch(etaStateProvider).valueOrNull;
     final recovery = ref.watch(shiftRecoveryProvider);
-    final insights =
-        ref.watch(unusualInsightsProvider).valueOrNull ?? const [];
-    final simulator = ref.watch(simulatorProvider);
+    final insights = ref.watch(unusualInsightsProvider).valueOrNull ?? const [];
     final snapshot = _HomeSnapshot.from(
       tick,
       risk,
@@ -61,6 +57,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               child: Column(
                 children: [
+                  _HomeIdentity(snapshot: snapshot),
+                  const SizedBox(height: 14),
                   Expanded(
                     child: wide
                         ? _WideDashboard(snapshot: snapshot)
@@ -72,6 +70,70 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
         ),
       ),
+    );
+  }
+}
+
+class _HomeIdentity extends StatelessWidget {
+  const _HomeIdentity({required this.snapshot});
+
+  final _HomeSnapshot snapshot;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(width: 6, height: 40, color: CatTheme.yellow),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'CAT OPERATOR COPILOT',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(letterSpacing: 0.4),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                '${snapshot.tick?.machineId ?? 'EXC001'} · EXCAVATOR · '
+                '${snapshot.mode.label} MODE',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+          decoration: BoxDecoration(
+            color: CatTheme.panel,
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: CatTheme.divider),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 7,
+                height: 7,
+                decoration: BoxDecoration(
+                  color: snapshot.live ? CatTheme.safe : CatTheme.textMuted,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 7),
+              Text(
+                snapshot.live ? 'LIVE' : 'PREVIEW',
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: snapshot.live ? CatTheme.safe : CatTheme.textMuted,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -90,12 +152,6 @@ class _HomeSnapshot {
     required this.latestInsight,
     required this.riskLevel,
     required this.safetyAction,
-    required this.workerDistance,
-    required this.seatbelt,
-    required this.fuelPct,
-    required this.loadPct,
-    required this.engineHours,
-    required this.idleMinutes,
     required this.workloadLevel,
     required this.live,
   });
@@ -112,12 +168,6 @@ class _HomeSnapshot {
   final BehaviourInsight? latestInsight;
   final AlertLevel riskLevel;
   final String safetyAction;
-  final double workerDistance;
-  final bool seatbelt;
-  final double fuelPct;
-  final double loadPct;
-  final double engineHours;
-  final double idleMinutes;
   final WorkloadLevel workloadLevel;
   final bool live;
 
@@ -143,12 +193,6 @@ class _HomeSnapshot {
         latestInsight: null,
         riskLevel: AlertLevel.info,
         safetyAction: 'No immediate hazards',
-        workerDistance: 14,
-        seatbelt: true,
-        fuelPct: 67,
-        loadPct: 42,
-        engineHours: 1530.2,
-        idleMinutes: 6,
         workloadLevel: WorkloadLevel.normal,
         live: false,
       );
@@ -160,10 +204,16 @@ class _HomeSnapshot {
       MachineMode.load => 'Truck loading',
       MachineMode.grade => 'Final grading',
     };
-    final previewEta = ((100 - tick.progressPct) * 0.34).clamp(3, 45).round();
-    final liveEta = eta == null || eta.etaRemainingMin <= 0
+    final safeProgress = tick.progressPct.isFinite
+        ? tick.progressPct.clamp(0.0, 100.0).toDouble()
+        : 0.0;
+    final previewEta = safeProgress >= 99.5
+        ? 0
+        : ((100 - safeProgress) * 0.34).clamp(1, 45).round();
+    final liveEta =
+        eta == null || !eta.etaRemainingMin.isFinite || eta.etaRemainingMin <= 0
         ? previewEta
-        : eta.etaRemainingMin.clamp(1, 180).round();
+        : eta.etaRemainingMin.clamp(0, 180).round();
     return _HomeSnapshot(
       tick: tick,
       mode: tick.mode,
@@ -171,23 +221,17 @@ class _HomeSnapshot {
       zone: tick.mode == MachineMode.lift
           ? 'Zone B · Lift corridor'
           : 'Zone B · East cut',
-      progress: tick.progressPct,
-      etaMinutes: liveEta,
+      progress: safeProgress,
+      etaMinutes: liveEta.clamp(0, 180).toInt(),
       etaExplanation: eta?.explanation,
-      paceSummary: recovery?.summary.toUpperCase() ??
-          'ON PACE WITH SHIFT BASELINE',
+      paceSummary:
+          recovery?.summary.toUpperCase() ?? 'ON PACE WITH SHIFT BASELINE',
       paceAhead: recovery?.isAhead ?? true,
       latestInsight: latestInsight,
       riskLevel: risk?.level ?? AlertLevel.info,
       safetyAction: risk?.primaryHazard == null
           ? 'No immediate hazards'
           : risk!.action,
-      workerDistance: tick.nearestPersonM,
-      seatbelt: tick.seatbelt,
-      fuelPct: tick.fuelPct,
-      loadPct: tick.loadPct,
-      engineHours: tick.engineHours,
-      idleMinutes: tick.idleMin,
       workloadLevel: workload?.level ?? WorkloadLevel.normal,
       live: true,
     );
@@ -400,7 +444,9 @@ class _CurrentTask extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 2),
                         child: Text(
-                          '${snapshot.etaMinutes} MIN LEFT',
+                          snapshot.etaMinutes == 0
+                              ? 'TASK COMPLETE'
+                              : '${snapshot.etaMinutes} MIN LEFT',
                           style: const TextStyle(
                             color: CatTheme.textPrimary,
                             fontSize: 13,
@@ -435,7 +481,9 @@ class _CurrentTask extends StatelessWidget {
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                     Text(
-                      '${snapshot.etaMinutes} min',
+                      snapshot.etaMinutes == 0
+                          ? 'Complete'
+                          : '${snapshot.etaMinutes} min',
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ],
@@ -506,7 +554,6 @@ class _ProgressValue extends StatelessWidget {
   }
 }
 
-
 class _ShiftRail extends StatelessWidget {
   const _ShiftRail({required this.snapshot});
 
@@ -573,7 +620,6 @@ class _ShiftRail extends StatelessWidget {
     );
   }
 }
-
 
 class _ModeBadge extends StatelessWidget {
   const _ModeBadge({required this.mode});
@@ -839,25 +885,6 @@ class _HandoverHint extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _InlineError extends StatelessWidget {
-  const _InlineError({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      color: CatTheme.critical,
-      child: Text(
-        '$message. Check the scenario asset and try again.',
-        style: const TextStyle(color: Colors.white),
       ),
     );
   }

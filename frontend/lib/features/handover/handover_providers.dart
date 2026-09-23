@@ -36,9 +36,7 @@ final handoverReportProvider = FutureProvider<HandoverReport>((ref) async {
       tasksDone.add(summary);
     } else {
       tasksRemaining.add(summary);
-      if (nextTask == null) {
-        nextTask = summary;
-      }
+      nextTask ??= summary;
     }
   }
 
