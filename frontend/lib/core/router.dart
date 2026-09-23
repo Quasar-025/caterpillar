@@ -5,7 +5,7 @@ import '../features/home/home_screen.dart';
 import '../features/learn/learn_screen.dart';
 import '../features/safety/safety_screen.dart';
 import '../safety/alert_overlay.dart';
-import '../safety/latency_debug_overlay.dart';
+import 'theme.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -17,10 +17,7 @@ final appRouter = GoRouter(
       branches: [
         StatefulShellBranch(
           routes: [
-            GoRoute(
-              path: '/',
-              builder: (context, state) => const HomeScreen(),
-            ),
+            GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
           ],
         ),
         StatefulShellBranch(
@@ -51,44 +48,124 @@ class _Shell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Main page content.
-          navigationShell,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final useRail = constraints.maxWidth >= 900;
+        final body = Stack(
+          children: [
+            navigationShell,
+            const AlertOverlay(),
+          ],
+        );
 
-          // Always-mounted alert overlay (toggles its own visibility).
-          const AlertOverlay(),
+        if (useRail) {
+          return Scaffold(
+            body: Row(
+              children: [
+                NavigationRail(
+                  selectedIndex: navigationShell.currentIndex,
+                  onDestinationSelected: navigationShell.goBranch,
+                  leading: const Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 28),
+                    child: _CatMark(),
+                  ),
+                  destinations: const [
+                    NavigationRailDestination(
+                      icon: Icon(Icons.grid_view_rounded),
+                      label: Text('Home'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.radar_rounded),
+                      label: Text('Safety'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.school_rounded),
+                      label: Text('Learn'),
+                    ),
+                  ],
+                ),
+                const VerticalDivider(width: 1),
+                Expanded(child: body),
+              ],
+            ),
+          );
+        }
 
-          // Debug latency overlay — bottom-left during dev/demo.
-          const Positioned(
-            left: 8,
-            bottom: 8,
-            child: LatencyDebugOverlay(),
+        return Scaffold(
+          body: body,
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: navigationShell.currentIndex,
+            onDestinationSelected: navigationShell.goBranch,
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.grid_view_rounded),
+                label: 'Home',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.radar_rounded),
+                label: 'Safety',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.school_rounded),
+                label: 'Learn',
+              ),
+            ],
           ),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: navigationShell.goBranch,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Ask Copilot',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.shield_outlined),
-            selectedIcon: Icon(Icons.shield),
-            label: 'Safety',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.school_outlined),
-            selectedIcon: Icon(Icons.school),
-            label: 'Learn',
-          ),
-        ],
+        );
+      },
+    );
+  }
+}
+
+class _CatMark extends StatelessWidget {
+  const _CatMark();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'CAT Operator Copilot',
+      child: SizedBox(
+        width: 52,
+        height: 36,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            const Text(
+              'CAT',
+              style: TextStyle(
+                color: CatTheme.textPrimary,
+                fontSize: 19,
+                fontWeight: FontWeight.w900,
+                letterSpacing: -1,
+              ),
+            ),
+            Positioned(
+              bottom: 1,
+              child: CustomPaint(
+                size: const Size(24, 7),
+                painter: _CatWedgePainter(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+class _CatWedgePainter extends CustomPainter {
+  const _CatWedgePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final path = Path()
+      ..moveTo(0, size.height)
+      ..lineTo(size.width / 2, 0)
+      ..lineTo(size.width, size.height)
+      ..close();
+    canvas.drawPath(path, Paint()..color = CatTheme.yellow);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
