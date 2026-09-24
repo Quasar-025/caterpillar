@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: cat-operator-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install .
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        # Default to a local sqlite db for demo purposes, 
+        # but in production, replace with a real postgres URL on Render
+        value: sqlite:///operator_copilot.db
+      - key: PYTHON_VERSION
+        value: 3.12.0
+    autoDeploy: false
